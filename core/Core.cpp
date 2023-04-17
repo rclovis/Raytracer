@@ -14,8 +14,6 @@
 
 namespace RayTracer
 {
-    typedef void (*exist_t)();
-    typedef IPrimitives *(*InitGFX_t)();
     typedef std::string (*LibType_t)();
 
     Core::Core()
