@@ -1,0 +1,9 @@
+*.a
+*.o
+*.out
+*.gc*
+*.so
+vgcore*
+.vscode
+unit_tests
+raytracer
