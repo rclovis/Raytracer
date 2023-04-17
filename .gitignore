@@ -1,9 +1,8 @@
-*.a
+.vscode/
+lib/
+build/
+vgcore*
 *.o
 *.out
-*.gc*
-*.so
-vgcore*
-.vscode
-unit_tests
+*.log
 raytracer
