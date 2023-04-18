@@ -10,7 +10,13 @@
 #include <map>
 #include <string>
 
+struct normalRay {
+    std::string text;
+    
+} typedef normalRay;
+
 class IPrimitives {
     public:
         virtual ~IPrimitives() = default;
+
 };

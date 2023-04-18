@@ -8,6 +8,7 @@
 #include "Core.hpp"
 #include "logger.hpp"
 #include "Primitives.hpp"
+#include "Matrice.hpp"
 
 #include <iostream>
 #include <exception>
