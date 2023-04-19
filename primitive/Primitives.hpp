@@ -9,18 +9,7 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "Matrice.hpp"
-
-struct normalRay {
-    Matrix<1,3> origin;
-    Matrix<1,3> direction;
-    Matrix<1,2> uv;
-} typedef normalRay;
-
-struct cameraRay {
-    Matrix<1,3> origin;
-    Matrix<1,3> direction;
-} typedef cameraRay;
+#include "struct.hpp"
 
 class IPrimitives {
     public:
