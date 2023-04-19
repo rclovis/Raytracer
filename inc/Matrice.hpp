@@ -19,7 +19,7 @@ class Matrix {
         Matrix operator/(double scalar) const;
         void operator/=(double scalar);
 
-        double data[rows][cols];
+        double matrix[rows][cols];
 };
 
 template <int rows, int cols>

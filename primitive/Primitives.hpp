@@ -9,14 +9,29 @@
 #include <vector>
 #include <map>
 #include <string>
+#include "Matrice.hpp"
 
 struct normalRay {
-    std::string text;
-    
+    Matrix<1,3> origin;
+    Matrix<1,3> direction;
+    Matrix<1,2> uv;
 } typedef normalRay;
+
+struct cameraRay {
+    Matrix<1,3> origin;
+    Matrix<1,3> direction;
+} typedef cameraRay;
 
 class IPrimitives {
     public:
         virtual ~IPrimitives() = default;
+        virtual void computeIntersection (cameraRay ray) = 0;
+        virtual normalRay getIntersection () = 0;
+};
 
+class APrimitives : public IPrimitives {
+    public:
+        normalRay getIntersection () {return _ray;}
+    protected:
+        normalRay _ray;
 };

@@ -7,7 +7,6 @@
 
 #include "DynLib.hpp"
 #include "logger.hpp"
-#include "Matrice.hpp"
 
 namespace RayTracer
 {

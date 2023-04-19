@@ -8,8 +8,6 @@
 #include "Core.hpp"
 #include "logger.hpp"
 #include "Primitives.hpp"
-#include "Matrice.hpp"
-
 #include <iostream>
 #include <exception>
 
@@ -50,7 +48,6 @@ namespace RayTracer
     {
         std::cout << LOG_CORE("Core moving out!");
     }
-
 
     enum Core::_libType Core::defineLibType(const fs::path &libpath)
     {
