@@ -14,16 +14,6 @@
 
 int main(int argc, char *argv[])
 {
-    Camera camera(11, 2, {{0, 0, 0}}, {{0, 0, 0}}, 90);
-
-        for (int j = 0; j < 2; j++) {
-    for (int i = 0; i < 11; i++) {
-            cameraRay ray = camera.getRay(i, j);
-            // std::cout << ray.origin<< std::endl;
-            std::cout << ray.direction << "\t";
-        }
-            std::cout<< std::endl;
-    }
     try
     {
         RayTracer::Core core;

@@ -24,7 +24,7 @@ namespace RayTracer
         if (!fs::is_directory(libpath))
             throw LibFolderNotFoundException("Cannot find specified directory");
         if (fs::is_empty(libpath))
-            throw NoLibraryFoundException("No shared library where found :(");
+            throw NoLibraryFoundException("No shared library where found");
         for (const auto &entry : fs::directory_iterator(libpath))
         {
             if (entry.is_regular_file() &&
