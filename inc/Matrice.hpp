@@ -10,6 +10,24 @@ class Matrix {
             matrix_.resize(rows, std::vector<T>(cols));
         }
 
+        Matrix (const std::initializer_list<std::initializer_list<T>>& list) {
+            matrix_.resize(rows, std::vector<T>(cols));
+            // printf("rows: %d, cols: %d\n", rows, cols);
+            // printf("list.size(): %d, list.begin()->size(): %d\n", list.size(), list.begin()->size());
+            if (list.size() != rows || list.begin()->size() != cols) {
+                throw std::invalid_argument("Invalid initializer list size for assignment");
+            }
+            size_t row = 0;
+            for (const auto& sublist : list) {
+                size_t col = 0;
+                for (const auto& value : sublist) {
+                    matrix_[row][col] = value;
+                    ++col;
+                }
+                ++row;
+            }
+        }
+
         // Constructeur avec initialisation
         Matrix(const std::vector<std::vector<T>>& matrix) {
             if (matrix.size() != rows || matrix[0].size() != cols) {
@@ -127,13 +145,6 @@ class Matrix {
         }
 
         // Méthode pour accéder aux éléments de la matrice
-        T& operator[](int row) {
-            return matrix_[row];
-        }
-
-        const T& operator[](int row) const {
-            return matrix_[row];
-        }
 
         T& operator()(int row, int col) {
             return matrix_[row][col];
@@ -151,6 +162,18 @@ class Matrix {
                 }
                 std::cout << std::endl;
             }
+        }
+
+        // Méthode pour afficher la matrice avec std::cout
+        friend std::ostream& operator<<(std::ostream& os, const Matrix<T, rows, cols>& matrix) {
+            for (int i = 0; i < rows; ++i) {
+                for (int j = 0; j < cols; ++j) {
+                    os << matrix.matrix_[i][j] << " ";
+                }
+                if (i != rows - 1)
+                    os << std::endl;
+            }
+            return os;
         }
 
         // Méthode pour définir le contenu de la matrice
