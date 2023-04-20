@@ -8,10 +8,12 @@
 #pragma once
 
 #include "DynLib.hpp"
+#include "Primitives.hpp"
 
 #include <vector>
 #include <filesystem>
 #include <chrono>
+#include <memory>
 
 namespace fs = std::filesystem;
 
@@ -22,6 +24,7 @@ namespace RayTracer
     public:
         Core();
         ~Core();
+        void run();
         class CoreException : public std::runtime_error
         {
             using std::runtime_error::runtime_error;
@@ -41,9 +44,11 @@ namespace RayTracer
         {
             UNKNOWN,
             PRIMITIVE,
+            LIGHT,
         };
 
         enum Core::_libType defineLibType(const fs::path &libpath);
         std::vector<std::unique_ptr<DynLib>> _primitiveLibs;
+
     };
 };

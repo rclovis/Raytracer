@@ -8,13 +8,17 @@
 #include "Core.hpp"
 #include "logger.hpp"
 #include "Primitives.hpp"
+#include "Camera.hpp"
 #include <iostream>
 #include <exception>
+#include <fstream>
+#include <algorithm>
+#include <cmath>
 
 namespace RayTracer
 {
     typedef std::string (*LibType_t)();
-
+typedef IPrimitives *(*InitPrimitive_t)();
     Core::Core()
     {
         std::cout << LOG_CORE("Ready to initialize!");
@@ -61,4 +65,41 @@ namespace RayTracer
         delete ptr;
         return UNKNOWN;
     }
+
+    void Core::run()
+    {
+
+        std::vector<IPrimitives*> primitives;
+        for (auto &lib : _primitiveLibs) {
+            InitPrimitive_t f = (InitPrimitive_t)lib->sym("Init");
+            primitives.push_back(f());
+        }
+
+        int width = 1920;
+        int height = 1080;
+        int fov = 90;
+
+        // create a ppm image
+        std::ofstream ofs("./image.ppm", std::ios::out | std::ios::binary);
+        ofs << "P6\n" << width << " " << height << "\n255\n";
+        // render
+        Camera cam(width, height, {{0, 0, 0}}, {{0, 0, 0}}, fov);
+        for (int j = height - 1; j >= 0; --j) {
+            for (int i = 0; i < width; ++i) {
+                cameraRay ray = cam.getRay(i, j);
+                Matrix<float, 1, 3> color = {{0, 0, 0}};
+                for (auto &primitive : primitives) {
+                    primitive->computeIntersection(ray);
+                    if (primitive->getIntersection().size() > 0) {
+                        color = {{1, 1, 1}};
+                        break;
+                    }
+                }
+                ofs << (unsigned char)(std::min(1.f, color(0, 0)) * 255) <<
+                    (unsigned char)(std::min(1.f, color(0, 1)) * 255) <<
+                    (unsigned char)(std::min(1.f, color(0, 2)) * 255);
+            }
+        }
+    }
+
 };

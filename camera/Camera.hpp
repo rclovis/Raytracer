@@ -19,6 +19,6 @@ class Camera {
         int _width;
         int _height;
         Matrix<float, 1, 3> _position;
-        Matrix<float, 3, 3> _rotation;
+        Matrix<float, 1, 3> _rotation;
         int _fov;
 };

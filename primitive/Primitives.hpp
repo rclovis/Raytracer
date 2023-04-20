@@ -15,12 +15,12 @@ class IPrimitives {
     public:
         virtual ~IPrimitives() = default;
         virtual void computeIntersection (cameraRay ray) = 0;
-        virtual normalRay getIntersection () = 0;
+        virtual std::vector<normalRay> getIntersection () = 0;
 };
 
 class APrimitives : public IPrimitives {
     public:
-        normalRay getIntersection () {return _ray;}
+        std::vector<normalRay> getIntersection () {return _ray;}
     protected:
-        normalRay _ray;
+        std::vector<normalRay> _ray;
 };

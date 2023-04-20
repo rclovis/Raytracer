@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
     try
     {
         RayTracer::Core core;
+        core.run();
     }
     catch (RayTracer::Core::CoreException &e)
     {
