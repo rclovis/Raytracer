@@ -32,7 +32,7 @@ class Circle : public APrimitives{
 
  IPrimitives *Init()
 {
-    return new Circle({{0, 0, 1000}}, 5);
+    return new Circle({{0, 0, 0}}, 5);
 }
 
 

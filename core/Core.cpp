@@ -75,19 +75,20 @@ typedef IPrimitives *(*InitPrimitive_t)();
             primitives.push_back(f());
         }
 
-        int width = 1920;
-        int height = 1080;
-        int fov = 90;
+        int width = 720;
+        int height = 480;
+        int fov = 72;
 
         // create a ppm image
         std::ofstream ofs("./image.ppm", std::ios::out | std::ios::binary);
         ofs << "P6\n" << width << " " << height << "\n255\n";
         // render
-        Camera cam(width, height, {{0, 0, 0}}, {{0, 0, 0}}, fov);
+        Camera cam(width, height, {{0, 0, -100}}, {{0, 20, 10}}, fov);
         for (int j = height - 1; j >= 0; --j) {
             for (int i = 0; i < width; ++i) {
                 cameraRay ray = cam.getRay(i, j);
-                Matrix<float, 1, 3> color = {{0, 0, 0}};
+                Matrix<float, 1, 3> color = {{0.5, 0.5, 0.5}};
+                // std::cout << ray.direction << " || ";
                 for (auto &primitive : primitives) {
                     primitive->computeIntersection(ray);
                     if (primitive->getIntersection().size() > 0) {
@@ -95,10 +96,11 @@ typedef IPrimitives *(*InitPrimitive_t)();
                         break;
                     }
                 }
-                ofs << (unsigned char)(std::min(1.f, color(0, 0)) * 255) <<
-                    (unsigned char)(std::min(1.f, color(0, 1)) * 255) <<
-                    (unsigned char)(std::min(1.f, color(0, 2)) * 255);
+                ofs << (unsigned char)(color(0, 0) * 255) <<
+                    (unsigned char)(color(0, 1) * 255) <<
+                    (unsigned char)(color(0, 2) * 255);
             }
+            // std::cout << std::endl;
         }
     }
 
