@@ -9,6 +9,7 @@
 #include "logger.hpp"
 #include "Primitives.hpp"
 #include "Camera.hpp"
+#include "Parser.hpp"
 #include <iostream>
 #include <exception>
 #include <fstream>
@@ -68,12 +69,9 @@ typedef IPrimitives *(*InitPrimitive_t)();
 
     void Core::run()
     {
-
-        std::vector<IPrimitives*> primitives;
-        for (auto &lib : _primitiveLibs) {
-            InitPrimitive_t f = (InitPrimitive_t)lib->sym("Init");
-            primitives.push_back(f());
-        }
+        Parser parser;
+        parser.setPath("config.cfg");
+        std::vector<IPrimitives*> primitives = parser.parsePrimitives();
 
         int width = 720;
         int height = 480;
@@ -87,7 +85,7 @@ typedef IPrimitives *(*InitPrimitive_t)();
         for (int j = height - 1; j >= 0; --j) {
             for (int i = 0; i < width; ++i) {
                 cameraRay ray = cam.getRay(i, j);
-                Matrix<float, 1, 3> color = {{0.5, 0.5, 0.5}};
+                mat::Matrix<float, 1, 3> color = {{0.5, 0.5, 0.5}};
                 // std::cout << ray.direction << " || ";
                 for (auto &primitive : primitives) {
                     primitive->computeIntersection(ray);
@@ -100,8 +98,8 @@ typedef IPrimitives *(*InitPrimitive_t)();
                     (unsigned char)(color(0, 1) * 255) <<
                     (unsigned char)(color(0, 2) * 255);
             }
-            // std::cout << std::endl;
         }
     }
-
 };
+
+

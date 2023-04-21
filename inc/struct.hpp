@@ -6,15 +6,16 @@
 */
 
 #pragma once
-#include "Matrice.hpp"
+#include "Matrix.hpp"
 
 struct normalRay {
-    Matrix<float, 1, 3> origin;
-    Matrix<float, 1, 3> direction;
-    Matrix<float, 1, 2> uv;
+    mat::Matrix<float, 1, 3> origin;
+    mat::Matrix<float, 1, 3> direction;
+    mat::Matrix<float, 1, 2> uv;
+    int primitiveId;
 } typedef normalRay;
 
 struct cameraRay {
-    Matrix<float, 1, 3> origin;
-    Matrix<float, 1, 3> direction;
+    mat::Matrix<float, 1, 3> origin;
+    mat::Matrix<float, 1, 3> direction;
 } typedef cameraRay;

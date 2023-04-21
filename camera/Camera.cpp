@@ -7,35 +7,17 @@
 
 #include "Camera.hpp"
 
-Camera::Camera(int width, int height, Matrix<float, 1, 3> position, Matrix<float, 1, 3> rotation, int fov)
+Camera::Camera(int width, int height, mat::Matrix<float, 1, 3> position, mat::Matrix<float, 1, 3> rotation, int fov)
 {
     _width = width;
     _height = height;
     _position = position;
     _fov = fov;
 
-    Matrix<float, 1, 3> angleRad = {
+    mat::Matrix<float, 1, 3> angleRad = {
         {(float)(rotation(0, 0) * (M_PI / 180.0f)), (float)(rotation(0, 1) * (M_PI / 180.0f)), (float)(rotation(0, 2) * (M_PI / 180.0f))}
     };
-
-    Matrix<float, 3, 3> rotationX = {
-        {1, 0, 0},
-        {0, cos(angleRad(0, 0)), -sin(angleRad(0, 0))},
-        {0, sin(angleRad(0, 0)), cos(angleRad(0, 0))}
-    };
-
-    Matrix<float, 3, 3> rotationY = {
-        {cos(angleRad(0, 1)), 0, sin(angleRad(0, 1))},
-        {0, 1, 0},
-        {-sin(angleRad(0, 1)), 0, cos(angleRad(0, 1))}
-    };
-
-    Matrix<float, 3, 3> rotationZ = {
-        {cos(angleRad(0, 2)), -sin(angleRad(0, 2)), 0},
-        {sin(angleRad(0, 2)), cos(angleRad(0, 2)), 0},
-        {0, 0, 1}
-    };
-    _rotation = rotationX * rotationY * rotationZ;
+    _rotation = mat::rotationMatrix(angleRad(0, 0), angleRad(0, 1), angleRad(0, 2));
 }
 
 Camera::~Camera()

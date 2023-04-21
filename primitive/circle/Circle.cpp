@@ -7,10 +7,11 @@
 
 #include "Circle.hpp"
 
-Circle::Circle(Matrix<float, 1, 3> position, float radius)
+Circle::Circle(std::string conf)
 {
-    _position = position;
-    _radius = radius;
+    _position = {{0, 0, 0}};
+
+    _radius = 5;
 }
 
 Circle::~Circle()

@@ -16,3 +16,6 @@
 
 #define LOG_DYNLIB(MSG) LOG(GREEN, dynlib, MSG)
 #define LOG_ERR_DYNLIB(MSG) LOG(RED, dynlib, MSG)
+
+#define LOG_PARSER(MSG) LOG(MAGENTA, dynlib, MSG)
+#define LOG_ERR_PARSER(MSG) LOG(RED, dynlib, MSG)

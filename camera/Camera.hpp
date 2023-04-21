@@ -11,14 +11,14 @@
 
 class Camera {
     public:
-        Camera(int width, int height, Matrix<float, 1, 3> position, Matrix<float, 1, 3> rotation, int fov);
+        Camera(int width, int height, mat::Matrix<float, 1, 3> position, mat::Matrix<float, 1, 3> rotation, int fov);
         ~Camera();
         cameraRay getRay(int x, int y);
 
     private:
         int _width;
         int _height;
-        Matrix<float, 1, 3> _position;
-        Matrix<float, 3, 3> _rotation;
+        mat::Matrix<float, 1, 3> _position;
+        mat::Matrix<float, 3, 3> _rotation;
         int _fov;
 };

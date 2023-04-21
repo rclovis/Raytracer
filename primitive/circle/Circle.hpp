@@ -11,17 +11,18 @@
 
 extern "C" {
     std::string getType();
-    IPrimitives *Init();
+    std::string getId();
+    IPrimitives *Init(std::string conf);
 }
 
 class Circle : public APrimitives{
     public:
-        Circle(Matrix<float, 1, 3> position, float radius);
+        Circle(std::string conf);
         ~Circle();
         void computeIntersection (cameraRay ray);
 
     private:
-        Matrix<float, 1, 3> _position;
+        mat::Matrix<float, 1, 3> _position;
         float _radius;
 };
 
@@ -30,9 +31,14 @@ class Circle : public APrimitives{
     return "primitive";
 }
 
- IPrimitives *Init()
+ IPrimitives *Init(std::string conf)
 {
-    return new Circle({{0, 0, 0}}, 5);
+    return new Circle(conf);
+}
+
+std::string getId ()
+{
+    return "circle";
 }
 
 

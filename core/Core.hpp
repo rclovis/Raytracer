@@ -49,6 +49,5 @@ namespace RayTracer
 
         enum Core::_libType defineLibType(const fs::path &libpath);
         std::vector<std::unique_ptr<DynLib>> _primitiveLibs;
-
     };
 };
