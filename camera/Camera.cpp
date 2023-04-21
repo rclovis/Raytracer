@@ -35,8 +35,8 @@ cameraRay Camera::getRay(int x, int y)
     float ndcY = (2.0f * y) / size - 1.0f;
 
     // Calculate direction vector in camera space
-    float dirX = ndcX * std::tan(fovRad / 2.0f);
-    float dirY = ndcY * std::tan(fovRad / 2.0f);
+    float dirX = ndcX * tan(fovRad / 2.0f);
+    float dirY = ndcY * tan(fovRad / 2.0f);
     float dirZ = 1.0f;
     // Apply rotations in x, y, z axes
     // float cosX = std::cos(_rotation(0, 0) * (M_PI / 180.0f));
