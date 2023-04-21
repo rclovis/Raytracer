@@ -9,7 +9,6 @@
 #include "logger.hpp"
 #include "Primitives.hpp"
 #include "Camera.hpp"
-#include "Parser.hpp"
 #include <iostream>
 #include <exception>
 #include <fstream>
@@ -19,7 +18,7 @@
 namespace RayTracer
 {
     typedef std::string (*LibType_t)();
-typedef IPrimitives *(*InitPrimitive_t)();
+    typedef IPrimitives *(*InitPrimitive_t)(libconfig::Setting &conf);
     Core::Core()
     {
         std::cout << LOG_CORE("Ready to initialize!");
@@ -39,11 +38,11 @@ typedef IPrimitives *(*InitPrimitive_t)();
                 std::cout << LOG_CORE("found " << entry.path().filename());
                 switch (defineLibType(entry.path()))
                 {
-                case PRIMITIVE:
-                    _primitiveLibs.emplace_back(new DynLib(entry.path()));
-                    break;
-                default:
-                    std::cerr << LOG_CORE("unknown library type");
+                    case PRIMITIVE:
+                        DynLib * ptr = new DynLib(entry.path());
+                        LibType_t tmp = (LibType_t)ptr->sym("getId");
+                        _primitivesObj[tmp()] = ptr;
+                        break;
                 }
             }
         }
@@ -71,7 +70,8 @@ typedef IPrimitives *(*InitPrimitive_t)();
     {
         Parser parser;
         parser.setPath("config.cfg");
-        std::vector<IPrimitives*> primitives = parser.parsePrimitives();
+        // std::vector<IPrimitives*> primitives;
+        std::vector<IPrimitives*> primitives = parser.parsePrimitives(_primitivesObj);
 
         int width = 720;
         int height = 480;

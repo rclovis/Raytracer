@@ -8,6 +8,7 @@
 #pragma once
 
 #include "DynLib.hpp"
+#include "Parser.hpp"
 #include "Primitives.hpp"
 
 #include <vector>
@@ -48,6 +49,7 @@ namespace RayTracer
         };
 
         enum Core::_libType defineLibType(const fs::path &libpath);
-        std::vector<std::unique_ptr<DynLib>> _primitiveLibs;
+        // std::vector<std::unique_ptr<DynLib>> _primitiveLibs;
+        std::map<std::string, DynLib*> _primitivesObj;
     };
 };

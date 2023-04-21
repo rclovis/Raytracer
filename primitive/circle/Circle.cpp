@@ -7,11 +7,14 @@
 
 #include "Circle.hpp"
 
-Circle::Circle(std::string conf)
+Circle::Circle(libconfig::Setting &conf)
 {
-    _position = {{0, 0, 0}};
-
-    _radius = 5;
+    int x = conf.lookup("x");
+    int y = conf.lookup("y");
+    int z = conf.lookup("z");
+    int rad = conf.lookup("r");
+    _position = {{(float)x, (float)y, (float)z}};
+    _radius = (float)rad;
 }
 
 Circle::~Circle()

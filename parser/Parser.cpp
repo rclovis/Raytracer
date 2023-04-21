@@ -6,7 +6,7 @@
 */
 
 #include "Parser.hpp"
-#include "logger.hpp"
+
 
 Parser::Parser()
 {
@@ -21,7 +21,7 @@ void Parser::setPath (std::string path)
     _path = path;
 }
 
-std::vector<IPrimitives *> Parser::parsePrimitives()
+std::vector<IPrimitives *> Parser::parsePrimitives(std::map<std::string, RayTracer::DynLib*> primitivesObj)
 {
     std::vector<IPrimitives *> primitives;
     libconfig::Config cfg;
@@ -39,6 +39,18 @@ std::vector<IPrimitives *> Parser::parsePrimitives()
     for (int i = 0; i < primitivesSetting.getLength(); i++) {
         const libconfig::Setting &primitive = primitivesSetting[i];
         std::string name = primitive.getName();
+        for (int j = 0; j < primitive.getLength(); j++) {
+            if (primitivesObj.find(name) == primitivesObj.end()) {
+                std::cout << LOG_PARSER("Primitive " << name << " not found.") << std::endl;
+                continue;
+            } else {
+                std::cout << LOG_PARSER("Primitive " << name << " found.") << std::endl;
+                InitPrimitive_t tmp = (InitPrimitive_t)primitivesObj[name]->sym("Init");
+
+                primitives.push_back(tmp(primitive[j]));
+
+            }
+        }
     }
     return primitives;
 }

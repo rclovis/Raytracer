@@ -12,12 +12,12 @@
 extern "C" {
     std::string getType();
     std::string getId();
-    IPrimitives *Init(std::string conf);
+    IPrimitives *Init(libconfig::Setting &conf);
 }
 
 class Circle : public APrimitives{
     public:
-        Circle(std::string conf);
+        Circle(libconfig::Setting &conf);
         ~Circle();
         void computeIntersection (cameraRay ray);
 
@@ -31,14 +31,14 @@ class Circle : public APrimitives{
     return "primitive";
 }
 
- IPrimitives *Init(std::string conf)
+ IPrimitives *Init(libconfig::Setting &conf)
 {
     return new Circle(conf);
 }
 
 std::string getId ()
 {
-    return "circle";
+    return "spheres";
 }
 
 

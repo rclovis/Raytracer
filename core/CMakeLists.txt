@@ -19,9 +19,9 @@ set(
 CORE_SOURCES
     main.cpp
     Core.cpp
+    DynLib.cpp
     ../camera/Camera.cpp
     ../parser/Parser.cpp
-    DynLib.cpp
 )
 set(
 CORE_OPTIONS
@@ -44,6 +44,7 @@ add_executable(raytracer ${CORE_SOURCES})
 
 target_compile_options(raytracer PRIVATE ${CORE_OPTIONS})
 
+target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../primitive)
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../lights)

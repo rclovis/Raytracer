@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <libconfig.h++>
 #include "struct.hpp"
 
 class IPrimitives {
