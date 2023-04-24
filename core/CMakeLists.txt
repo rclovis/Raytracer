@@ -25,8 +25,6 @@ CORE_SOURCES
 )
 set(
 CORE_OPTIONS
-    -Wall
-    -Wextra
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")

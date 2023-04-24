@@ -15,5 +15,3 @@ add_library(raytracer_circle SHARED ${CIRCLE_SOURCES})
 target_include_directories(raytracer_circle PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer_circle PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # target_link_libraries(raytracer_circle PRIVATE ${CURSES_LIBRARIES})
-
-

@@ -10,9 +10,10 @@
 #include <map>
 #include <string>
 #include "struct.hpp"
+#include "Primitives.hpp"
 
 class ILights {
     public:
         virtual ~ILights() = default;
-        virtual void computeIntersection (cameraRay ray) = 0;
+        virtual lightColor getLight(normalRay ray) = 0;
 };
