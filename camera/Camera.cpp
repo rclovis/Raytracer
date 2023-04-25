@@ -13,11 +13,7 @@ Camera::Camera(int width, int height, mat::Matrix<float, 1, 3> position, mat::Ma
     _height = height;
     _position = position;
     _fov = fov;
-
-    mat::Matrix<float, 1, 3> angleRad = {
-        {(float)(rotation(0, 0) * (M_PI / 180.0f)), (float)(rotation(0, 1) * (M_PI / 180.0f)), (float)(rotation(0, 2) * (M_PI / 180.0f))}
-    };
-    _rotation = mat::rotationMatrix(angleRad(0, 0), angleRad(0, 1), angleRad(0, 2));
+    _rotation = mat::rotationMatrix(rotation(0, 0), rotation(0, 1), rotation(0, 2));
     _ofs << "P6\n" << width << " " << height << "\n255\n";
 }
 
@@ -35,17 +31,20 @@ cameraRay Camera::getRay(int x, int y)
     float ndcX = (2.0f * x) / size - 1.0f;
     float ndcY = (2.0f * y) / size - 1.0f;
 
-    // Calculate direction vector in camera space
+    // Calculate direction vector in camera space looking to Y+
     float dirX = ndcX * tan(fovRad / 2.0f);
     float dirY = ndcY * tan(fovRad / 2.0f);
-    float dirZ = 1.0f;
+    float dirZ = -1.0f;
+
+
 
     cameraRay ray;
-    ray.origin = _position;
+    ray.origin = _position ;
     ray.direction = {{dirX, dirY, dirZ}};
-    ray.direction = ray.direction * _rotation;
+    // ray.direction *= mat::rotationMatrixX(90);
+    ray.direction *= mat::rotationMatrix(90, 0, 0);
+    ray.direction *= _rotation;
     return ray;
-
 }
 
 float Camera::sizeFromIntersection(normalRay intersection)

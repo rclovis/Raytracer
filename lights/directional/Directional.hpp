@@ -20,8 +20,10 @@ class Directional : public ILights {
         ~Directional();
         lightColor getLight(normalRay ray);
 
-    protected:
     private:
+        mat::Matrix<float, 1, 3> _color;
+        mat::Matrix<float, 1, 3> _direction;
+        float _intensity;
 };
 
 
@@ -37,5 +39,5 @@ ILights *Init(libconfig::Setting &conf)
 
 std::string getId ()
 {
-    return "drop";
+    return "directional";
 }

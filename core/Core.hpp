@@ -45,12 +45,14 @@ namespace RayTracer
         {
             UNKNOWN,
             PRIMITIVE,
+            POSTPROCESSING,
             LIGHT,
         };
 
         enum Core::_libType defineLibType(const fs::path &libpath);
         std::vector<IPrimitives*> _primitives;
         std::vector<ILights*> _lights;
+        std::vector<IPostProcessing*> _postProcessing;
         Camera *_camera;
     };
 };

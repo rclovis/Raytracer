@@ -46,6 +46,7 @@ target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../primitive)
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../lights)
+target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../postProcessing)
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../camera)
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../parser)
 

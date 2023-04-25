@@ -46,9 +46,7 @@ std::vector<IPrimitives *> Parser::parsePrimitives(std::map<std::string, RayTrac
             } else {
                 std::cout << LOG_PARSER("Primitive " << name << " found.");
                 InitPrimitive_t tmp = (InitPrimitive_t)primitivesObj[name]->sym("Init");
-
                 primitives.push_back(tmp(primitive[j]));
-
             }
         }
     }
@@ -89,17 +87,6 @@ std::vector<ILights *> Parser::parseLights(std::map<std::string, RayTracer::DynL
     return light;
 }
 
-/*
-camera :
-{
-    resolution = { width = 1920; height = 1080; };
-    position = { x = 0; y = -100; z = 20; };
-    rotation = { x = 0; y = 0; z = 0; };
-    fieldOfView = 72.0; # In degree
-};
-*/
-
-
 Camera *Parser::parseCamera ()
 {
     int width, height;
@@ -133,4 +120,35 @@ Camera *Parser::parseCamera ()
     rotation = {{(float)x, (float)y, (float)z}};
     cameraSetting.lookupValue("fieldOfView", fov);
     return new Camera(width, height, position, rotation, fov);
+}
+
+
+std::vector<IPostProcessing *> Parser::parsePostProcessing(std::map<std::string, RayTracer::DynLib*> primitivesObj)
+{
+    std::vector<IPostProcessing *> postProcessing;
+    libconfig::Config cfg;
+    try {
+        cfg.readFile(_path.c_str());
+    } catch (const libconfig::FileIOException &fioex) {
+        std::cout << LOG_PARSER("I/O error while reading file.");
+        return postProcessing;
+    } catch (const libconfig::ParseException &pex) {
+        std::cout << LOG_PARSER("Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError());
+        return postProcessing;
+    }
+    const libconfig::Setting &root = cfg.getRoot();
+    const libconfig::Setting &postProcessingSetting = root["postProcessing"];
+    for (int i = 0; i < postProcessingSetting.getLength(); i++) {
+        const libconfig::Setting &postProcessing_t = postProcessingSetting[i];
+        std::string name = postProcessing_t.getName();
+        if (primitivesObj.find(name) == primitivesObj.end()) {
+            std::cout << LOG_PARSER("PostProcessing " << name << " not found.");
+            continue;
+        } else {
+            std::cout << LOG_PARSER("PostProcessing " << name << " found.");
+            InitPostProcessing_t tmp = (InitPostProcessing_t)primitivesObj[name]->sym("Init");
+            postProcessing.push_back(tmp());
+        }
+    }
+    return postProcessing;
 }

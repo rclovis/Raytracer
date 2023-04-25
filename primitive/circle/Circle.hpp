@@ -20,9 +20,11 @@ class Circle : public APrimitives{
         Circle(libconfig::Setting &conf);
         ~Circle();
         void computeIntersection (cameraRay ray);
+        mat::Matrix<float, 1, 3> getColor() {return _color;}
 
     private:
         mat::Matrix<float, 1, 3> _position;
+        mat::Matrix<float, 1, 3> _color;
         float _radius;
 };
 

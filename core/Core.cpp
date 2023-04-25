@@ -24,6 +24,7 @@ namespace RayTracer
         std::cout << LOG_CORE("Loading shared libraries...");
         std::map<std::string, DynLib*> primitivesObj;
         std::map<std::string, DynLib*> lightsObj;
+        std::map<std::string, DynLib*> postProcessingObj;
         fs::path libpath = "lib/";
         std::cout << LOG_CORE("Looking at " << fs::absolute(libpath));
         if (!fs::is_directory(libpath))
@@ -42,6 +43,9 @@ namespace RayTracer
                     case LIGHT:
                         lightsObj[tmp()] = ptr;
                         break;
+                    case POSTPROCESSING:
+                        postProcessingObj[tmp()] = ptr;
+                        break;
                 }
             }
         }
@@ -49,6 +53,7 @@ namespace RayTracer
         parser.setPath("config.cfg");
         _primitives = parser.parsePrimitives(primitivesObj);
         _lights = parser.parseLights(lightsObj);
+        _postProcessing = parser.parsePostProcessing(postProcessingObj);
         _camera = parser.parseCamera();
     }
 
@@ -70,6 +75,10 @@ namespace RayTracer
             delete ptr;
             return LIGHT;
         }
+        if (tmp() == "postProcessing") {
+            delete ptr;
+            return POSTPROCESSING;
+        }
         delete ptr;
         return UNKNOWN;
     }
@@ -82,16 +91,24 @@ namespace RayTracer
                 intersections.clear();
                 cameraRay ray = _camera->getRay(i, j);
                 mat::Matrix<float, 1, 3> color = {{0.5, 0.5, 0.5}};
+                int id = 0;
                 for (auto &primitive : _primitives) {
                     primitive->computeIntersection(ray);
                     for (auto &intersection : primitive->getIntersection()) {
+                        intersection.primitiveId = id;
                         intersection.distance = _camera->sizeFromIntersection(intersection);
                         intersections.push_back(intersection);
                     }
+                    id++;
                 }
                 std::sort(intersections.begin(), intersections.end(), [](const normalRay &a, const normalRay &b) {
                     return a.distance < b.distance;
                 });
+                if (intersections.size() != 0) {
+                    for (auto &postProcess : _postProcessing) {
+                        color = postProcess->getPixel(_primitives, _lights, intersections[0]).color;
+                    }
+                }
                 _camera->getOfs() << (unsigned char)(color(0, 0) * 255) <<
                     (unsigned char)(color(0, 1) * 255) <<
                     (unsigned char)(color(0, 2) * 255);

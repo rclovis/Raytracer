@@ -12,9 +12,10 @@ Ambiant::Ambiant(libconfig::Setting &conf)
     int r = conf.lookup("r");
     int g = conf.lookup("g");
     int b = conf.lookup("b");
-    int intensity = conf.lookup("r");
+    float intensity = conf.lookup("m");
     _color = {{(float)r, (float)g, (float)b}};
-    _intensity = (float)intensity;
+    _color = _color / 255;
+    _intensity = intensity;
 }
 
 Ambiant::~Ambiant()
@@ -24,5 +25,10 @@ Ambiant::~Ambiant()
 lightColor Ambiant::getLight(normalRay ray)
 {
     lightColor light;
+    light.color = _color;
+    light.direction = {{0, 0, 0}};
+    light.origin = {{0, 0, 0}};
+    light.intensity = _intensity;
+    light.id = 0;
     return light;
 }

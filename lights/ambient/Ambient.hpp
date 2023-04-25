@@ -38,5 +38,5 @@ ILights *Init(libconfig::Setting &conf)
 
 std::string getId ()
 {
-    return "drop";
+    return "ambient";
 }

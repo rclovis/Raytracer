@@ -12,7 +12,6 @@
 #include <math.h>
 
 namespace mat {
-
     template<typename T, int rows, int cols>
     class Matrix {
         public:
@@ -198,27 +197,30 @@ namespace mat {
 
 
     static Matrix<float, 3, 3> rotationMatrixX (float angle) {
+        float radAngle = -angle * M_PI / 180;
         Matrix<float, 3, 3> result = {
             {1, 0, 0},
-            {0, cos(angle), -sin(angle)},
-            {0, sin(angle), cos(angle)}
+            {0, cos(radAngle), -sin(radAngle)},
+            {0, sin(radAngle), cos(radAngle)}
         };
         return result;
     }
 
     static Matrix<float, 3, 3> rotationMatrixY (float angle) {
+        float radAngle = -angle * M_PI / 180;
         Matrix<float, 3, 3> result = {
-            {cos(angle), 0, sin(angle)},
+            {cos(radAngle), 0, sin(radAngle)},
             {0, 1, 0},
-            {-sin(angle), 0, cos(angle)}
+            {-sin(radAngle), 0, cos(radAngle)}
         };
         return result;
     }
 
     static Matrix<float, 3, 3> rotationMatrixZ (float angle) {
+        float radAngle = -angle * M_PI / 180;
         Matrix<float, 3, 3> result = {
-            {cos(angle), -sin(angle), 0},
-            {sin(angle), cos(angle), 0},
+            {cos(radAngle), -sin(radAngle), 0},
+            {sin(radAngle), cos(radAngle), 0},
             {0, 0, 1}
         };
         return result;
@@ -259,6 +261,30 @@ namespace mat {
                 else {
                     result.matrix_[i][j] = 0;
                 }
+            }
+        }
+        return result;
+    }
+
+    // normalise une matrice
+    template<typename T, int rows, int cols>
+    static Matrix<T, rows, cols> normalizeMatrix(const Matrix<T, rows, cols>& matrix) {
+        Matrix<T, rows, cols> result;
+        T max = matrix.matrix_[0][0];
+        if (max <= 1) {
+            return matrix;
+        }
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                T value = matrix.matrix_[i][j];
+                if (value > max) {
+                    max = value;
+                }
+            }
+        }
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                result.matrix_[i][j] = matrix.matrix_[i][j] / max;
             }
         }
         return result;

@@ -27,6 +27,8 @@ struct pixelColor {
 
 struct lightColor {
     mat::Matrix<float, 1, 3> color;
+    mat::Matrix<float, 1, 3> origin;
     mat::Matrix<float, 1, 3> direction;
     float intensity;
+    int id;
 } typedef lightColor;
