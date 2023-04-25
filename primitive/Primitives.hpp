@@ -19,7 +19,7 @@ class IPrimitives {
         virtual std::vector<normalRay> getIntersection () = 0;
         virtual mat::Matrix<float, 1, 3> getColor () = 0;
         virtual cameraRay transformRay (cameraRay initialRay, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction) = 0;
-        virtual normalRay convertHit (cameraRay Ray, normalRay transformedHit, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction) = 0;
+        virtual normalRay convertHit (normalRay transformedHit, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction) = 0;
 };
 
 class APrimitives : public IPrimitives {
@@ -27,18 +27,21 @@ class APrimitives : public IPrimitives {
         std::vector<normalRay> getIntersection () {return _ray;}
         cameraRay transformRay (cameraRay initialRay, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction)
         {
-            cameraRay ray;
-            ray.origin = initialRay.origin - origin;
-            ray.direction = initialRay.direction - direction;
-            return ray;
+            mat::Matrix<float, 3, 3> transformRotate = mat::rotationMatrix(-direction(0, 0), -direction(0, 1), -direction(0, 2));
+            cameraRay transformedRay;
+            transformedRay.origin = initialRay.origin - origin;
+            transformedRay.direction = initialRay.direction * transformRotate;
+            return transformedRay;
         }
-        normalRay convertHit (cameraRay Ray, normalRay transformedHit, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction)
+        normalRay convertHit (normalRay transformedHit, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction)
         {
-            normalRay hit;
-            hit.origin = Ray.origin + transformedHit.origin + origin;
-            hit.direction = Ray.direction + transformedHit.direction + direction;
-            hit.primitiveId = transformedHit.primitiveId;
-            return hit;
+            mat::Matrix<float, 3, 3> transformRotate = mat::rotationMatrix(direction(0, 0), direction(0, 1), direction(0, 2));
+            normalRay convertedHit;
+            convertedHit.origin = transformedHit.origin * transformRotate + origin;
+            convertedHit.direction = transformedHit.direction * transformRotate;
+            convertedHit.primitiveId = transformedHit.primitiveId;
+            convertedHit.distance = transformedHit.distance;
+            return convertedHit;
         }
 
     protected:

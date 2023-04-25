@@ -266,25 +266,12 @@ namespace mat {
         return result;
     }
 
-    // normalise une matrice
     template<typename T, int rows, int cols>
     static Matrix<T, rows, cols> normalizeMatrix(const Matrix<T, rows, cols>& matrix) {
         Matrix<T, rows, cols> result;
-        T max = matrix.matrix_[0][0];
-        if (max <= 1) {
-            return matrix;
-        }
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
-                T value = matrix.matrix_[i][j];
-                if (value > max) {
-                    max = value;
-                }
-            }
-        }
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                result.matrix_[i][j] = matrix.matrix_[i][j] / max;
+                result.matrix_[i][j] = matrix.matrix_[i][j] / matrix.matrix_[rows - 1][cols - 1];
             }
         }
         return result;
