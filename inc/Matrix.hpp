@@ -55,6 +55,18 @@ namespace mat {
                 return result;
             }
 
+            //equality operator
+            bool operator==(const Matrix<T, rows, cols>& other) const {
+                for (int i = 0; i < rows; ++i) {
+                    for (int j = 0; j < cols; ++j) {
+                        if (matrix_[i][j] != other.matrix_[i][j]) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
             // Opération d'addition et affectation
             void operator+=(const Matrix<T, rows, cols>& other) {
                 for (int i = 0; i < rows; ++i) {
@@ -273,6 +285,30 @@ namespace mat {
             for (int j = 0; j < cols; ++j) {
                 result.matrix_[i][j] = matrix.matrix_[i][j] / matrix.matrix_[rows - 1][cols - 1];
             }
+        }
+        return result;
+    }
+
+    template<typename T, int rows, int cols>
+    static Matrix<T, rows, cols> capMatrix(const Matrix<T, rows, cols>& matrix, T maxValue) {
+        T max = 0;
+        Matrix<T, rows, cols> result;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                max = std::max(max, matrix.matrix_[i][j]);
+            }
+        }
+        if (max > maxValue) {
+            for (int i = 0; i < rows; ++i) {
+                for (int j = 0; j < cols; ++j) {
+                    result.matrix_[i][j] = matrix.matrix_[i][j] - (max - maxValue);
+                    if (result.matrix_[i][j] < 0)
+                        result.matrix_[i][j] = 0;
+                }
+            }
+        }
+        else {
+            result = matrix;
         }
         return result;
     }

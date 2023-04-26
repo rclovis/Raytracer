@@ -19,14 +19,14 @@ pixelColor Drop::getPixel (std::vector<IPrimitives*> primitives, std::vector<ILi
 {
     pixelColor pixel;
     pixel.color = {{0, 0, 0}};
-    int i = 0;
     for (auto &light : lights) {
         lightColor lightColor = light->getLight(ray);
-        if (light->getLight(ray).id == 0) {
-            pixel.color += (primitives[ray.primitiveId]->getColor() + lightColor.color) / 2 * lightColor.intensity;
-            i++;
+        if (lightColor.direction == mat::Matrix<float, 1, 3>{{0, 0, 0}})
             continue;
-        }
+        // if (light->getLight(ray).id == 0) {
+        //     pixel.color += (primitives[ray.primitiveId]->getColor() + lightColor.color) / 2 * lightColor.intensity;
+        //     continue;
+        // }
         cameraRay lightRay;
         lightRay.origin = ray.origin + ray.direction * 0.1;
         lightRay.direction = lightColor.direction;
@@ -39,9 +39,8 @@ pixelColor Drop::getPixel (std::vector<IPrimitives*> primitives, std::vector<ILi
         }
         if (lightRays.size() == 0) {
             pixel.color += (primitives[ray.primitiveId]->getColor() + lightColor.color) / 2 * lightColor.intensity;
-            i++;
         }
     }
-    pixel.color /= i;
+    pixel.color = mat::capMatrix(pixel.color, 1.0f);
     return pixel;
 }

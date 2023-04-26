@@ -90,7 +90,7 @@ namespace RayTracer
             for (int i = 0; i < _camera->getWidth(); ++i) {
                 intersections.clear();
                 cameraRay ray = _camera->getRay(i, j);
-                mat::Matrix<float, 1, 3> color = {{0.5, 0.5, 0.5}};
+                mat::Matrix<float, 1, 3> color = {{0, 0, 0}};
                 int id = 0;
                 for (auto &primitive : _primitives) {
                     primitive->computeIntersection(ray);
@@ -106,8 +106,9 @@ namespace RayTracer
                 });
                 if (intersections.size() != 0) {
                     for (auto &postProcess : _postProcessing) {
-                        color = postProcess->getPixel(_primitives, _lights, intersections[0]).color;
+                        color += postProcess->getPixel(_primitives, _lights, intersections[0]).color;
                     }
+                    color = mat::capMatrix(color, 1.0f);
                 }
                 _camera->getOfs() << (unsigned char)(color(0, 0) * 255) <<
                     (unsigned char)(color(0, 1) * 255) <<
