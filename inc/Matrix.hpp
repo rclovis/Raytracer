@@ -242,41 +242,6 @@ namespace mat {
         return rotationMatrixX(angleX) * rotationMatrixY(angleY) * rotationMatrixZ(angleZ);
     }
 
-    static Matrix<float, 4, 4> translationMatrix (float x, float y, float z) {
-        Matrix<float, 4, 4> result = {
-            {1, 0, 0, x},
-            {0, 1, 0, y},
-            {0, 0, 1, z},
-            {0, 0, 0, 1}
-        };
-        return result;
-    }
-
-    static Matrix<float, 4, 4> scaleMatrix (float x, float y, float z) {
-        Matrix<float, 4, 4> result = {
-            {x, 0, 0, 0},
-            {0, y, 0, 0},
-            {0, 0, z, 0},
-            {0, 0, 0, 1}
-        };
-        return result;
-    }
-
-    template<typename T, int rows, int cols>
-    static Matrix<T, rows, cols> identityMatrix() {
-        Matrix<T, rows, cols> result;
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                if (i == j) {
-                    result.matrix_[i][j] = 1;
-                }
-                else {
-                    result.matrix_[i][j] = 0;
-                }
-            }
-        }
-        return result;
-    }
 
     template<typename T, int rows, int cols>
     static Matrix<T, rows, cols> normalizeMatrix(const Matrix<T, rows, cols>& matrix) {
@@ -316,14 +281,33 @@ namespace mat {
         if (max > maxValue) {
             for (int i = 0; i < rows; ++i) {
                 for (int j = 0; j < cols; ++j) {
-                    result.matrix_[i][j] = matrix.matrix_[i][j] - (max - maxValue);
-                    if (result.matrix_[i][j] < 0)
-                        result.matrix_[i][j] = 0;
+                    result.matrix_[i][j] = matrix.matrix_[i][j] / max * maxValue;
                 }
             }
         }
         else {
             result = matrix;
+        }
+        return result;
+    }
+
+    //dot product
+    template<typename T, int rows, int cols>
+    static T dotProduct(const Matrix<T, rows, cols>& vector1, const Matrix<T, rows, cols>& vector2) {
+        T result = 0;
+        for (int i = 0; i < cols; ++i) {
+            result += vector1.matrix_[0][i] * vector2.matrix_[0][i];
+        }
+        return result;
+    }
+
+    //reflectVector
+    template<typename T, int rows, int cols>
+    static Matrix<T, rows, cols> reflectVector(const Matrix<T, rows, cols>& vector, const Matrix<T, rows, cols>& normal) {
+        Matrix<T, rows, cols> result;
+        T dot = dotProduct(vector, normal);
+        for (int i = 0; i < cols; ++i) {
+            result.matrix_[0][i] = vector.matrix_[0][i] - 2 * dot * normal.matrix_[0][i];
         }
         return result;
     }

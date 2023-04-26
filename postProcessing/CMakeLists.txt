@@ -16,6 +16,11 @@ AMBIENT_SOURCES
     ambient/Ambient.cpp
 )
 
+set(
+DIFFUSE_SOURCES
+    diffuse/Diffuse.cpp
+)
+
 add_library(raytracer_drop SHARED ${DROP_SOURCES})
 target_include_directories(raytracer_drop PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer_drop PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -27,3 +32,9 @@ target_include_directories(raytracer_ambientp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
 target_include_directories(raytracer_ambientp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(raytracer_ambientp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../primitive)
 target_include_directories(raytracer_ambientp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../lights)
+
+add_library(raytracer_diffuse SHARED ${DIFFUSE_SOURCES})
+target_include_directories(raytracer_diffuse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
+target_include_directories(raytracer_diffuse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(raytracer_diffuse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../primitive)
+target_include_directories(raytracer_diffuse PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../lights)

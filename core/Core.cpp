@@ -90,7 +90,6 @@ namespace RayTracer
             for (int i = 0; i < _camera->getWidth(); ++i) {
                 intersections.clear();
                 cameraRay ray = _camera->getRay(i, j);
-                mat::Matrix<float, 1, 3> color = {{0, 0, 0}};
                 int id = 0;
                 for (auto &primitive : _primitives) {
                     primitive->computeIntersection(ray);
@@ -104,18 +103,38 @@ namespace RayTracer
                 std::sort(intersections.begin(), intersections.end(), [](const normalRay &a, const normalRay &b) {
                     return a.distance < b.distance;
                 });
-                if (intersections.size() != 0) {
-                    for (auto &postProcess : _postProcessing) {
-                        color += postProcess->getPixel(_primitives, _lights, intersections[0]).color;
-                    }
-                    color = mat::capMatrix(color, 1.0f);
-                }
+                mat::Matrix<float, 1, 3> color = getPixelColor(intersections, ray);
                 _camera->getOfs() << (unsigned char)(color(0, 0) * 255) <<
                     (unsigned char)(color(0, 1) * 255) <<
                     (unsigned char)(color(0, 2) * 255);
             }
         }
     }
+
+
+    mat::Matrix<float, 1, 3> Core::getPixelColor(const std::vector<normalRay> intersections, cameraRay camera)
+    {
+        mat::Matrix<float, 1, 3> color = {{0, 0, 0}};
+        float multiplier = 1;
+        if (intersections.size() != 0) {
+            if (_postProcessing.find("drop") != _postProcessing.end()) {
+                color = _postProcessing["drop"]->getPixel(_primitives, _lights, intersections[0], camera).color;
+                if (color(0, 0) == 0 && color(0, 1) == 0 && color(0, 2) == 0)
+                    multiplier = 0;
+            }
+            for (auto &postProcessing : _postProcessing) {
+                if (postProcessing.first != "drop" && postProcessing.first != "ambient" && multiplier != 0) {
+                    color += postProcessing.second->getPixel(_primitives, _lights, intersections[0], camera).color;
+                }
+            }
+            if (_postProcessing.find("ambient") != _postProcessing.end()) {
+                color += _postProcessing["ambient"]->getPixel(_primitives, _lights, intersections[0], camera).color;
+            }
+        }
+        color = mat::capMatrix(color, 1.0f);
+        return color;
+    }
+
 };
 
 

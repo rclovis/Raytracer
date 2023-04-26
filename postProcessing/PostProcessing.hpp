@@ -16,5 +16,5 @@
 class IPostProcessing {
     public:
         virtual ~IPostProcessing() = default;
-        virtual pixelColor getPixel (std::vector<IPrimitives*> primitives, std::vector<ILights*> lights, normalRay ray) = 0;
+        virtual pixelColor getPixel (std::vector<IPrimitives*> primitives, std::vector<ILights*> lights, normalRay ray, cameraRay camera) = 0;
 };

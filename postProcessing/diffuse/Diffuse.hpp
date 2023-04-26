@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** B-OOP-400-MAR-4-1-raytracer-clovis.rabot
 ** File description:
-** Ambient
+** Diffuse
 */
 
 #pragma once
@@ -14,10 +14,10 @@ extern "C" {
     IPostProcessing *Init();
 }
 
-class Ambient : public IPostProcessing {
+class Diffuse : public IPostProcessing {
     public:
-        Ambient();
-        ~Ambient();
+        Diffuse();
+        ~Diffuse();
         pixelColor getPixel (std::vector<IPrimitives*> primitives, std::vector<ILights*> lights, normalRay ray, cameraRay camera);
 
     protected:
@@ -31,10 +31,10 @@ std::string getType ()
 
 IPostProcessing *Init()
 {
-    return new Ambient();
+    return new Diffuse();
 }
 
 std::string getId ()
 {
-    return "ambient";
+    return "diffuse";
 }

@@ -15,7 +15,7 @@ Ambient::~Ambient()
 {
 }
 
-pixelColor Ambient::getPixel (std::vector<IPrimitives*> primitives, std::vector<ILights*> lights, normalRay ray)
+pixelColor Ambient::getPixel (std::vector<IPrimitives*> primitives, std::vector<ILights*> lights, normalRay ray, cameraRay camera)
 {
     pixelColor pixel;
     pixel.color = {{0, 0, 0}};

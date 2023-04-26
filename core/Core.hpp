@@ -26,6 +26,7 @@ namespace RayTracer
         Core();
         ~Core();
         void run();
+        mat::Matrix<float, 1, 3> getPixelColor(const std::vector<normalRay> intersections, cameraRay camera);
         class CoreException : public std::runtime_error
         {
             using std::runtime_error::runtime_error;
@@ -52,7 +53,7 @@ namespace RayTracer
         enum Core::_libType defineLibType(const fs::path &libpath);
         std::vector<IPrimitives*> _primitives;
         std::vector<ILights*> _lights;
-        std::vector<IPostProcessing*> _postProcessing;
+        std::map<std::string, IPostProcessing*> _postProcessing;
         Camera *_camera;
     };
 };

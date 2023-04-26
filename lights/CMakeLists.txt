@@ -16,6 +16,11 @@ AMBIENT_SOURCES
     ambient/Ambient.cpp
 )
 
+set(
+POINT_SOURCES
+    point/Point.cpp
+)
+
 add_library(raytracer_directional SHARED ${DIRECTIONAL_SOURCES})
 target_include_directories(raytracer_directional PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer_directional PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -26,4 +31,7 @@ target_include_directories(raytracer_ambient PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/
 target_include_directories(raytracer_ambient PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(raytracer_ambient PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../primitive)
 
-
+add_library(raytracer_point SHARED ${POINT_SOURCES})
+target_include_directories(raytracer_point PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
+target_include_directories(raytracer_point PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(raytracer_point PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../primitive)

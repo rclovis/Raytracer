@@ -18,7 +18,7 @@ class Drop : public IPostProcessing {
     public:
         Drop();
         ~Drop();
-        pixelColor getPixel (std::vector<IPrimitives*> primitives, std::vector<ILights*> lights, normalRay ray);
+        pixelColor getPixel (std::vector<IPrimitives*> primitives, std::vector<ILights*> lights, normalRay ray, cameraRay camera);
 
     protected:
     private:

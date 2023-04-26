@@ -28,7 +28,7 @@ class Parser {
         void setPath(std::string path);
         std::vector<IPrimitives *> parsePrimitives(std::map<std::string, RayTracer::DynLib*> primitivesObj);
         std::vector<ILights *> parseLights(std::map<std::string, RayTracer::DynLib*> primitivesObj);
-        std::vector<IPostProcessing *> parsePostProcessing(std::map<std::string, RayTracer::DynLib*> primitivesObj);
+        std::map<std::string, IPostProcessing*> parsePostProcessing(std::map<std::string, RayTracer::DynLib*> primitivesObj);
         Camera *parseCamera();
 
     private:

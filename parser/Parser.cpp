@@ -123,9 +123,9 @@ Camera *Parser::parseCamera ()
 }
 
 
-std::vector<IPostProcessing *> Parser::parsePostProcessing(std::map<std::string, RayTracer::DynLib*> primitivesObj)
+std::map<std::string, IPostProcessing*> Parser::parsePostProcessing(std::map<std::string, RayTracer::DynLib*> primitivesObj)
 {
-    std::vector<IPostProcessing *> postProcessing;
+    std::map<std::string, IPostProcessing*> postProcessing;
     libconfig::Config cfg;
     try {
         cfg.readFile(_path.c_str());
@@ -147,7 +147,7 @@ std::vector<IPostProcessing *> Parser::parsePostProcessing(std::map<std::string,
         } else {
             std::cout << LOG_PARSER("PostProcessing " << name << " found.");
             InitPostProcessing_t tmp = (InitPostProcessing_t)primitivesObj[name]->sym("Init");
-            postProcessing.push_back(tmp());
+            postProcessing[name] = tmp();
         }
     }
     return postProcessing;
