@@ -28,7 +28,7 @@ pixelColor Drop::getPixel (std::vector<IPrimitives*> primitives, std::vector<ILi
         //     continue;
         // }
         cameraRay lightRay;
-        lightRay.origin = ray.origin + ray.direction * 0.1;
+        lightRay.origin = ray.origin + ray.direction * 0.01;
         lightRay.direction = lightColor.direction;
         std::vector<normalRay> lightRays;
         for (auto &primitive : primitives) {

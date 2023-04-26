@@ -290,6 +290,21 @@ namespace mat {
     }
 
     template<typename T, int rows, int cols>
+    static Matrix<T, rows, cols> normalizeVector(const Matrix<T, rows, cols>& vector) {
+        Matrix<T, rows, cols> result;
+        T norm = 0;
+        for (int i = 0; i < cols; ++i) {
+            norm += vector.matrix_[0][i] * vector.matrix_[0][i];
+        }
+        norm = sqrt(norm);
+        for (int i = 0; i < cols; ++i) {
+            result.matrix_[0][i] = vector.matrix_[0][i] / norm;
+        }
+        return result;
+    }
+
+
+    template<typename T, int rows, int cols>
     static Matrix<T, rows, cols> capMatrix(const Matrix<T, rows, cols>& matrix, T maxValue) {
         T max = 0;
         Matrix<T, rows, cols> result;

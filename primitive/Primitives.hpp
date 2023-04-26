@@ -29,7 +29,7 @@ class APrimitives : public IPrimitives {
         {
             mat::Matrix<float, 3, 3> transformRotate = mat::rotationMatrix(-direction(0, 0), -direction(0, 1), -direction(0, 2));
             cameraRay transformedRay;
-            transformedRay.origin = initialRay.origin - origin;
+            transformedRay.origin = (initialRay.origin - origin) * transformRotate;
             transformedRay.direction = initialRay.direction * transformRotate;
             return transformedRay;
         }
