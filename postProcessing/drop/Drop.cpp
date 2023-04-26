@@ -27,8 +27,8 @@ pixelColor Drop::getPixel (std::vector<IPrimitives*> primitives, std::vector<ILi
         lightRay.direction = lightColor.direction;
         std::vector<normalRay> lightRays;
         for (auto &primitive : primitives) {
-            primitive->computeIntersection(lightRay);
-            for (auto &intersection : primitive->getIntersection()) {
+            std::vector<normalRay> intersec = primitive->computeIntersection(lightRay);
+            for (auto &intersection : intersec) {
                 lightRays.push_back(intersection);
             }
         }

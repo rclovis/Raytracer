@@ -85,15 +85,16 @@ namespace RayTracer
 
     void Core::run()
     {
-        std::vector<normalRay> intersections;
+        std::vector<std::vector<mat::Matrix<float, 1, 3>>> screen = std::vector<std::vector<mat::Matrix<float, 1, 3>>>(_camera->getHeight(), std::vector<mat::Matrix<float, 1, 3>>(_camera->getWidth(), {{0, 0, 0}}));
+        #pragma omp parallel for
         for (int j = _camera->getHeight() - 1; j >= 0; --j) {
             for (int i = 0; i < _camera->getWidth(); ++i) {
-                intersections.clear();
+                std::vector<normalRay> intersections;
                 cameraRay ray = _camera->getRay(i, j);
                 int id = 0;
                 for (auto &primitive : _primitives) {
-                    primitive->computeIntersection(ray);
-                    for (auto &intersection : primitive->getIntersection()) {
+                    std::vector<normalRay> intersec = primitive->computeIntersection(ray);
+                    for (auto &intersection : intersec) {
                         intersection.primitiveId = id;
                         intersection.distance = _camera->sizeFromIntersection(intersection);
                         intersections.push_back(intersection);
@@ -103,10 +104,13 @@ namespace RayTracer
                 std::sort(intersections.begin(), intersections.end(), [](const normalRay &a, const normalRay &b) {
                     return a.distance < b.distance;
                 });
-                mat::Matrix<float, 1, 3> color = getPixelColor(intersections, ray);
-                _camera->getOfs() << (unsigned char)(color(0, 0) * 255) <<
-                    (unsigned char)(color(0, 1) * 255) <<
-                    (unsigned char)(color(0, 2) * 255);
+                screen[j][i] = getPixelColor(intersections, ray) * 255;
+            }
+        }
+
+        for (int j = _camera->getHeight() - 1; j >= 0; --j) {
+            for (int i = 0; i < _camera->getWidth(); ++i) {
+                _camera->getOfs() << (unsigned char)screen[j][i](0, 0) << (unsigned char)screen[j][i](0, 1) << (unsigned char)screen[j][i](0, 2);
             }
         }
     }

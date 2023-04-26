@@ -15,8 +15,7 @@
 class IPrimitives {
     public:
         virtual ~IPrimitives() = default;
-        virtual void computeIntersection (cameraRay ray) = 0;
-        virtual std::vector<normalRay> getIntersection () = 0;
+        virtual std::vector<normalRay> computeIntersection (cameraRay ray) = 0;
         virtual mat::Matrix<float, 1, 3> getColor () = 0;
         virtual cameraRay transformRay (cameraRay initialRay, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction) = 0;
         virtual normalRay convertHit (normalRay transformedHit, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction) = 0;
@@ -24,7 +23,6 @@ class IPrimitives {
 
 class APrimitives : public IPrimitives {
     public:
-        std::vector<normalRay> getIntersection () {return _ray;}
         cameraRay transformRay (cameraRay initialRay, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction)
         {
             mat::Matrix<float, 3, 3> transformRotate = mat::rotationMatrix(-direction(0, 0), -direction(0, 1), -direction(0, 2));

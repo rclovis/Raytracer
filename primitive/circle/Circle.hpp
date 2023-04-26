@@ -19,7 +19,7 @@ class Circle : public APrimitives{
     public:
         Circle(libconfig::Setting &conf);
         ~Circle();
-        void computeIntersection (cameraRay ray);
+        std::vector<normalRay> computeIntersection (cameraRay ray);
         mat::Matrix<float, 1, 3> getColor() {return _color;}
 
     private:
