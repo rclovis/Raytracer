@@ -123,32 +123,75 @@ Camera *Parser::parseCamera ()
 }
 
 
-std::map<std::string, IPostProcessing*> Parser::parsePostProcessing(std::map<std::string, RayTracer::DynLib*> primitivesObj)
+/*
+materials :
 {
-    std::map<std::string, IPostProcessing*> postProcessing;
+    {
+        name = "red";
+        r = 255;
+        g = 64;
+        b = 64;
+        transparency = 0.0;
+        reflection = 0.0;
+        refraction = 0.0;
+        shininess = 0.0;
+    },
+
+        name = "green";
+        r = 64;
+        g = 255;
+        b = 64;
+        transparency = 0.0;
+        reflection = 0.0;
+        refraction = 0.0;
+        shininess = 0.0;
+    },
+
+};
+}
+*/
+void Parser::loadMaterials(std::vector<IPrimitives *> primitives)
+{
+    std::vector<material> materials;
     libconfig::Config cfg;
     try {
         cfg.readFile(_path.c_str());
     } catch (const libconfig::FileIOException &fioex) {
         std::cout << LOG_PARSER("I/O error while reading file.");
-        return postProcessing;
+        return;
     } catch (const libconfig::ParseException &pex) {
         std::cout << LOG_PARSER("Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError());
-        return postProcessing;
+        return;
     }
     const libconfig::Setting &root = cfg.getRoot();
-    const libconfig::Setting &postProcessingSetting = root["postProcessing"];
-    for (int i = 0; i < postProcessingSetting.getLength(); i++) {
-        const libconfig::Setting &postProcessing_t = postProcessingSetting[i];
-        std::string name = postProcessing_t.getName();
-        if (primitivesObj.find(name) == primitivesObj.end()) {
-            std::cout << LOG_PARSER("PostProcessing " << name << " not found.");
-            continue;
-        } else {
-            std::cout << LOG_PARSER("PostProcessing " << name << " found.");
-            InitPostProcessing_t tmp = (InitPostProcessing_t)primitivesObj[name]->sym("Init");
-            postProcessing[name] = tmp();
+    const libconfig::Setting &materialsSetting = root["materials"];
+    for (int i = 0; i < materialsSetting.getLength(); i++) {
+        const libconfig::Setting &material = materialsSetting[i];
+        for (int j = 0; j < material.getLength(); j++) {
+            std::string name;
+            int r, g, b;
+            float transparency, reflection, refraction, shininess, specular, diffuse, ambient;
+            material[j].lookupValue("name", name);
+            material[j].lookupValue("r", r);
+            material[j].lookupValue("g", g);
+            material[j].lookupValue("b", b);
+            material[j].lookupValue("transparency", transparency);
+            material[j].lookupValue("reflection", reflection);
+            material[j].lookupValue("refraction", refraction);
+            material[j].lookupValue("shininess", shininess);
+            material[j].lookupValue("specular", specular);
+            material[j].lookupValue("diffuse", diffuse);
+            material[j].lookupValue("ambient", ambient);
+            materials.push_back({name, {{(float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f}}, transparency, reflection, refraction, shininess, specular, diffuse, ambient});
         }
     }
-    return postProcessing;
+
+    for (int i = 0; i < primitives.size(); i++) {
+        for (int j = 0; j < materials.size(); j++) {
+            if (primitives[i]->getMaterialName() == materials[j].name) {
+                primitives[i]->setMaterial(materials[j]);
+                break;
+            }
+        }
+    }
 }

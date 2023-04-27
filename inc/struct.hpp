@@ -30,5 +30,17 @@ struct lightColor {
     mat::Matrix<float, 1, 3> origin;
     mat::Matrix<float, 1, 3> direction;
     float intensity;
-    int id;
+    bool ambient;
 } typedef lightColor;
+
+struct material {
+    std::string name;
+    mat::Matrix<float, 1, 3> color;
+    float transparency;
+    float reflection;
+    float refraction;
+    float shininess;
+    float specular;
+    float diffuse;
+    float ambient;
+} typedef material;

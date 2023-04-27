@@ -2,10 +2,10 @@
 ** EPITECH PROJECT, 2023
 ** B-OOP-400-MAR-4-1-raytracer-clovis.rabot
 ** File description:
-** Circle
+** Sphere
 */
 
-#include "Circle.hpp"
+#include "Sphere.hpp"
 
 /*
 spheres = (
@@ -14,25 +14,22 @@ spheres = (
 ) ;
 */
 
-Circle::Circle(libconfig::Setting &conf)
+Sphere::Sphere(libconfig::Setting &conf)
 {
     int x = conf.lookup("x");
     int y = conf.lookup("y");
     int z = conf.lookup("z");
     int rad = conf.lookup("rad");
+    conf.lookupValue("material", _materialName);
     _position = {{(float)x, (float)y, (float)z}};
     _radius = (float)rad;
-    int r = conf.lookup("color.r");
-    int g = conf.lookup("color.g");
-    int b = conf.lookup("color.b");
-    _color = {{(float)r / 255, (float)g / 255, (float)b / 255}};
 }
 
-Circle::~Circle()
+Sphere::~Sphere()
 {
 }
 
-std::vector<normalRay> Circle::computeIntersection (cameraRay ray)
+std::vector<normalRay> Sphere::computeIntersection (cameraRay ray)
 {
     ray = transformRay(ray, _position, {{0, 0, 0}});
     std::vector<normalRay> rays;

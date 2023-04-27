@@ -33,6 +33,6 @@ lightColor Directional::getLight(normalRay ray)
     light.direction = _direction;
     light.origin = {{0, 0, 0}};
     light.intensity = _intensity;
-    light.id = 1;
+    light.ambient = false;
     return light;
 }

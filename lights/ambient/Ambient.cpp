@@ -29,6 +29,6 @@ lightColor Ambiant::getLight(normalRay ray)
     light.direction = {{0, 0, 0}};
     light.origin = {{0, 0, 0}};
     light.intensity = _intensity;
-    light.id = 0;
+    light.ambient = true;
     return light;
 }

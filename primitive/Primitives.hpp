@@ -16,7 +16,9 @@ class IPrimitives {
     public:
         virtual ~IPrimitives() = default;
         virtual std::vector<normalRay> computeIntersection (cameraRay ray) = 0;
-        virtual mat::Matrix<float, 1, 3> getColor () = 0;
+        virtual material getMaterial () = 0;
+        virtual void setMaterial (material material) = 0;
+        virtual std::string getMaterialName () = 0;
         virtual cameraRay transformRay (cameraRay initialRay, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction) = 0;
         virtual normalRay convertHit (normalRay transformedHit, mat::Matrix<float, 1, 3> origin, mat::Matrix<float, 1, 3> direction) = 0;
 };
@@ -41,7 +43,11 @@ class APrimitives : public IPrimitives {
             convertedHit.distance = transformedHit.distance;
             return convertedHit;
         }
+        material getMaterial () {return _material;}
+        void setMaterial (material material) {_material = material;}
+        std::string getMaterialName () {return _materialName;}
 
     protected:
-        std::vector<normalRay> _ray;
+        material _material;
+        std::string _materialName;
 };

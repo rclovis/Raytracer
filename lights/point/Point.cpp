@@ -33,6 +33,6 @@ lightColor Point::getLight(normalRay ray)
     light.direction = mat::normalizeVector(_direction - ray.origin);
     light.origin = {{0, 0, 0}};
     light.intensity = _intensity;
-    light.id = 1;
+    light.ambient = false;
     return light;
 }

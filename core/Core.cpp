@@ -6,14 +6,6 @@
 */
 
 #include "Core.hpp"
-#include "logger.hpp"
-#include "Primitives.hpp"
-#include "Camera.hpp"
-#include <iostream>
-#include <exception>
-#include <fstream>
-#include <algorithm>
-#include <cmath>
 
 namespace RayTracer
 {
@@ -52,8 +44,8 @@ namespace RayTracer
         Parser parser;
         parser.setPath("config.cfg");
         _primitives = parser.parsePrimitives(primitivesObj);
+        parser.loadMaterials(_primitives);
         _lights = parser.parseLights(lightsObj);
-        _postProcessing = parser.parsePostProcessing(postProcessingObj);
         _camera = parser.parseCamera();
     }
 
@@ -86,6 +78,7 @@ namespace RayTracer
     void Core::run()
     {
         std::vector<std::vector<mat::Matrix<float, 1, 3>>> screen = std::vector<std::vector<mat::Matrix<float, 1, 3>>>(_camera->getHeight(), std::vector<mat::Matrix<float, 1, 3>>(_camera->getWidth(), {{0, 0, 0}}));
+        Shading shading;
         #pragma omp parallel for
         for (int j = _camera->getHeight() - 1; j >= 0; --j) {
             for (int i = 0; i < _camera->getWidth(); ++i) {
@@ -104,7 +97,7 @@ namespace RayTracer
                 std::sort(intersections.begin(), intersections.end(), [](const normalRay &a, const normalRay &b) {
                     return a.distance < b.distance;
                 });
-                screen[j][i] = getPixelColor(intersections, ray) * 255;
+                screen[j][i] = shading.shadingPipeline(_primitives, _lights, intersections, ray) * 255;
             }
         }
 
@@ -114,31 +107,6 @@ namespace RayTracer
             }
         }
     }
-
-
-    mat::Matrix<float, 1, 3> Core::getPixelColor(const std::vector<normalRay> intersections, cameraRay camera)
-    {
-        mat::Matrix<float, 1, 3> color = {{0, 0, 0}};
-        float multiplier = 1;
-        if (intersections.size() != 0) {
-            if (_postProcessing.find("drop") != _postProcessing.end()) {
-                color = _postProcessing["drop"]->getPixel(_primitives, _lights, intersections[0], camera).color;
-                if (color(0, 0) == 0 && color(0, 1) == 0 && color(0, 2) == 0)
-                    multiplier = 0;
-            }
-            for (auto &postProcessing : _postProcessing) {
-                if (postProcessing.first != "drop" && postProcessing.first != "ambient" && multiplier != 0) {
-                    color += postProcessing.second->getPixel(_primitives, _lights, intersections[0], camera).color;
-                }
-            }
-            if (_postProcessing.find("ambient") != _postProcessing.end()) {
-                color += _postProcessing["ambient"]->getPixel(_primitives, _lights, intersections[0], camera).color;
-            }
-        }
-        color = mat::capMatrix(color, 1.0f);
-        return color;
-    }
-
 };
 
 

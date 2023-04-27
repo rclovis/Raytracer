@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** B-OOP-400-MAR-4-1-raytracer-clovis.rabot
 ** File description:
-** Circle
+** Sphere
 */
 
 #pragma once
@@ -15,17 +15,16 @@ extern "C" {
     IPrimitives *Init(libconfig::Setting &conf);
 }
 
-class Circle : public APrimitives{
+class Sphere : public APrimitives{
     public:
-        Circle(libconfig::Setting &conf);
-        ~Circle();
+        Sphere(libconfig::Setting &conf);
+        ~Sphere();
         std::vector<normalRay> computeIntersection (cameraRay ray);
-        mat::Matrix<float, 1, 3> getColor() {return _color;}
 
     private:
         mat::Matrix<float, 1, 3> _position;
-        mat::Matrix<float, 1, 3> _color;
         float _radius;
+        float _transparency;
 };
 
  std::string getType ()
@@ -35,7 +34,7 @@ class Circle : public APrimitives{
 
  IPrimitives *Init(libconfig::Setting &conf)
 {
-    return new Circle(conf);
+    return new Sphere(conf);
 }
 
 std::string getId ()

@@ -25,6 +25,7 @@ CORE_SOURCES
     DynLib.cpp
     ../camera/Camera.cpp
     ../parser/Parser.cpp
+    ../shading/Shading.cpp
 )
 set(
 CORE_OPTIONS
@@ -55,5 +56,6 @@ target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../light
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../postProcessing)
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../camera)
 target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../parser)
+target_include_directories(raytracer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../shading)
 
 target_link_libraries(raytracer config++ OpenMP::OpenMP_CXX)
