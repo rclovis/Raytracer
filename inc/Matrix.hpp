@@ -311,4 +311,14 @@ namespace mat {
         }
         return result;
     }
+
+    //cross product
+    template<typename T, int rows, int cols>
+    static Matrix<T, rows, cols> crossProduct(const Matrix<T, rows, cols>& vector1, const Matrix<T, rows, cols>& vector2) {
+        Matrix<T, rows, cols> result;
+        result.matrix_[0][0] = vector1.matrix_[0][1] * vector2.matrix_[0][2] - vector1.matrix_[0][2] * vector2.matrix_[0][1];
+        result.matrix_[0][1] = vector1.matrix_[0][2] * vector2.matrix_[0][0] - vector1.matrix_[0][0] * vector2.matrix_[0][2];
+        result.matrix_[0][2] = vector1.matrix_[0][0] * vector2.matrix_[0][1] - vector1.matrix_[0][1] * vector2.matrix_[0][0];
+        return result;
+    }
 }

@@ -19,6 +19,7 @@ class Shading {
         ~Shading();
         Shading();
         mat::Matrix<float, 1, 3> shadingPipeline (std::vector<IPrimitives*> primitives, std::vector<ILights*> lights, std::vector<normalRay> ray, cameraRay camera);
+        mat::Matrix<float, 1, 3> shadingPipelineRay (std::vector<IPrimitives*> primitives, std::vector<ILights*> lights, normalRay ray, cameraRay camera);
         mat::Matrix<float, 1, 3> mixColor (mat::Matrix<float, 1, 3> color1, mat::Matrix<float, 1, 3> color2, float ratio);
         mat::Matrix<float, 1, 3> filterColor (mat::Matrix<float, 1, 3> color, mat::Matrix<float, 1, 3> glassColor);
 };

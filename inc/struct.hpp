@@ -11,7 +11,6 @@
 struct normalRay {
     mat::Matrix<float, 1, 3> origin;
     mat::Matrix<float, 1, 3> direction;
-    mat::Matrix<float, 1, 2> uv;
     int primitiveId;
     float distance;
 } typedef normalRay;
