@@ -21,12 +21,8 @@ Plane::Plane(libconfig::Setting &conf)
     int yr = conf.lookup("yr");
     int zr = conf.lookup("zr");
     conf.lookupValue("material", _materialName);
-    std::cerr << _materialName << "\n";
     d = (float) x;
     rotation = {{(float) xr, (float) yr, (float) zr}};
-    std::cerr << rotation(0,0) << "\n";
-    std::cerr << rotation(0,1) << "\n";
-    std::cerr << rotation(0,2) << "\n";
 }
 
 Plane::~Plane()

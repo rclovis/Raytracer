@@ -39,7 +39,7 @@ add_library(raytracer_plane SHARED ${PLANE_SOURCES})
 target_include_directories(raytracer_plane PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer_plane PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(raytracer_square SHARED ${PLANE_SOURCES})
+add_library(raytracer_square SHARED ${SQUARE_SOURCES})
 target_include_directories(raytracer_square PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer_square PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

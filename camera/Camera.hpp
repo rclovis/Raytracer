@@ -26,5 +26,5 @@ class Camera {
         mat::Matrix<float, 1, 3> _position;
         mat::Matrix<float, 3, 3> _rotation;
         int _fov;
-        std::ofstream _ofs = std::ofstream("./image.ppm", std::ios::out | std::ios::binary);
+        std::ofstream _ofs = std::ofstream("./image.ppm", std::ios::out);
 };

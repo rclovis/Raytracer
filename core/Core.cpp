@@ -79,7 +79,7 @@ namespace RayTracer
     {
         std::vector<std::vector<mat::Matrix<float, 1, 3>>> screen = std::vector<std::vector<mat::Matrix<float, 1, 3>>>(_camera->getHeight(), std::vector<mat::Matrix<float, 1, 3>>(_camera->getWidth(), {{0, 0, 0}}));
         Shading shading;
-        // #pragma omp parallel for
+        #pragma omp parallel for
         for (int j = _camera->getHeight() - 1; j >= 0; --j) {
             for (int i = 0; i < _camera->getWidth(); ++i) {
                 std::vector<normalRay> intersections;
@@ -104,7 +104,7 @@ namespace RayTracer
 
         for (int j = _camera->getHeight() - 1; j >= 0; --j) {
             for (int i = 0; i < _camera->getWidth(); ++i) {
-                _camera->getOfs() << (unsigned char)screen[j][i](0, 0) << (unsigned char)screen[j][i](0, 1) << (unsigned char)screen[j][i](0, 2);
+                _camera->getOfs() << std::to_string((int) screen[j][i](0, 0)) << " " << std::to_string((int) screen[j][i](0, 1)) << " " << std::to_string((int) screen[j][i](0, 2)) << std::endl;
             }
         }
     }

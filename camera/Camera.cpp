@@ -14,7 +14,7 @@ Camera::Camera(int width, int height, mat::Matrix<float, 1, 3> position, mat::Ma
     _position = position;
     _fov = fov;
     _rotation = mat::rotationMatrix(rotation(0, 0), rotation(0, 1), rotation(0, 2));
-    _ofs << "P6\n" << width << " " << height << "\n255\n";
+    _ofs << "P3\n" << width << " " << height << "\n255\n";
 }
 
 Camera::~Camera()

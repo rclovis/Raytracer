@@ -72,7 +72,7 @@ mat::Matrix<float, 1, 3> Shading::shadingPipelineRay (std::vector<IPrimitives*> 
 
         mat::Matrix<float, 1, 3> specular = {{0, 0, 0}};
 
-        mat::Matrix<float, 1, 3> reflection = mat::normalizeVector(mat::reflectVector(camera.direction, ray[0].direction));
+        mat::Matrix<float, 1, 3> reflection = mat::normalizeVector(mat::reflectVector(camera.direction, ray.direction));
         float specularIntensity = pow(std::max(0.0f, mat::dotProduct(reflection, lightColor.direction)), 32);
         specular = mat::capMatrix(mat::Matrix<float, 1, 3> {{
             specularIntensity, specularIntensity, specularIntensity
