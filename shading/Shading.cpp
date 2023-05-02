@@ -71,8 +71,9 @@ mat::Matrix<float, 1, 3> Shading::shadingPipelineRay (std::vector<IPrimitives*> 
         tmp *= std::max(0.0f, mat::dotProduct(ray.direction, lightColor.direction));
 
         mat::Matrix<float, 1, 3> specular = {{0, 0, 0}};
-        mat::Matrix<float, 1, 3> reflection = mat::normalizeVector(mat::reflectVector(camera.direction, ray.direction));
-        float specularIntensity = std::pow(std::max(0.0f, mat::dotProduct(reflection, lightColor.direction)), 32);
+
+        mat::Matrix<float, 1, 3> reflection = mat::normalizeVector(mat::reflectVector(camera.direction, ray[0].direction));
+        float specularIntensity = pow(std::max(0.0f, mat::dotProduct(reflection, lightColor.direction)), 32);
         specular = mat::capMatrix(mat::Matrix<float, 1, 3> {{
             specularIntensity, specularIntensity, specularIntensity
         }}, 1.0f);
