@@ -44,6 +44,9 @@ std::vector<normalRay> Sphere::computeIntersection (cameraRay ray)
         normalRay normal;
         normal.origin = {{ray.origin(0, 0) + t * ray.direction(0, 0), ray.origin(0, 1) + t * ray.direction(0, 1), ray.origin(0, 2) + t * ray.direction(0, 2)}};
         normal.direction = mat::normalizeVector(normal.origin);
+        if (mat::dotProduct(normal.direction, ray.direction) > 0) {
+            normal.direction *= -1;
+        }
         normal = convertHit(normal, _position, {{0, 0, 0}});
         rays.push_back(normal);
         return rays;
@@ -54,6 +57,9 @@ std::vector<normalRay> Sphere::computeIntersection (cameraRay ray)
         normalRay normal;
         normal.origin = {{ray.origin(0, 0) + t1 * ray.direction(0, 0), ray.origin(0, 1) + t1 * ray.direction(0, 1), ray.origin(0, 2) + t1 * ray.direction(0, 2)}};
         normal.direction = mat::normalizeVector(normal.origin);
+        if (mat::dotProduct(normal.direction, ray.direction) > 0) {
+            normal.direction *= -1;
+        }
         normal = convertHit(normal, _position, {{0, 0, 0}});
         rays.push_back(normal);
     }
@@ -61,6 +67,9 @@ std::vector<normalRay> Sphere::computeIntersection (cameraRay ray)
         normalRay normal;
         normal.origin = {{ray.origin(0, 0) + t2 * ray.direction(0, 0), ray.origin(0, 1) + t2 * ray.direction(0, 1), ray.origin(0, 2) + t2 * ray.direction(0, 2)}};
         normal.direction = mat::normalizeVector(normal.origin);
+        if (mat::dotProduct(normal.direction, ray.direction) > 0) {
+            normal.direction *= -1;
+        }
         normal = convertHit(normal, _position, {{0, 0, 0}});
         rays.push_back(normal);
     }
