@@ -2,12 +2,14 @@
 ** EPITECH PROJECT, 2023
 ** B-OOP-400-MAR-4-1-raytracer-clovis.rabot
 ** File description:
-** Sphere
+** Obj
 */
 
 #pragma once
 #include "Primitives.hpp"
 #include <math.h>
+#include <sstream>
+#include <fstream>
 
 extern "C" {
     std::string getType();
@@ -15,15 +17,17 @@ extern "C" {
     IPrimitives *Init(libconfig::Setting &conf);
 }
 
-class Sphere : public APrimitives{
+class Obj : public APrimitives{
     public:
-        Sphere(libconfig::Setting &conf);
-        ~Sphere();
+        Obj(libconfig::Setting &conf);
+        ~Obj();
+        void loadObj (std::string fileName);
         std::vector<normalRay> computeIntersection (cameraRay ray);
 
     private:
+        std::vector<mat::Matrix<float, 1, 3>> _vertices;
         mat::Matrix<float, 1, 3> _position;
-        float _radius;
+        mat::Matrix<float, 1, 3> _rotation;
 };
 
  std::string getType ()
@@ -33,12 +37,10 @@ class Sphere : public APrimitives{
 
 IPrimitives *Init(libconfig::Setting &conf)
 {
-    return new Sphere(conf);
+    return new Obj(conf);
 }
 
 std::string getId ()
 {
-    return "spheres";
+    return "obj";
 }
-
-
