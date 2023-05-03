@@ -32,7 +32,7 @@ class Sphere : public APrimitives{
     return "primitive";
 }
 
- IPrimitives *Init(libconfig::Setting &conf)
+IPrimitives *Init(libconfig::Setting &conf)
 {
     return new Sphere(conf);
 }

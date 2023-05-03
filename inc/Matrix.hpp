@@ -303,11 +303,11 @@ namespace mat {
 
     //reflectVector
     template<typename T, int rows, int cols>
-    static Matrix<T, rows, cols> reflectVector(const Matrix<T, rows, cols>& vector, const Matrix<T, rows, cols>& normal) {
+    static Matrix<T, rows, cols> reflectVector(const Matrix<T, rows, cols>& incidentVector, const Matrix<T, rows, cols>& normal) {
         Matrix<T, rows, cols> result;
-        T dot = dotProduct(vector, normal);
+        T dot = dotProduct(incidentVector, normal);
         for (int i = 0; i < cols; ++i) {
-            result.matrix_[0][i] = vector.matrix_[0][i] - 2 * dot * normal.matrix_[0][i];
+            result.matrix_[0][i] = incidentVector.matrix_[0][i] - 2 * dot * normal.matrix_[0][i];
         }
         return result;
     }

@@ -97,7 +97,7 @@ namespace RayTracer
                 std::sort(intersections.begin(), intersections.end(), [](const normalRay &a, const normalRay &b) {
                     return a.distance < b.distance;
                 });
-                screen[j][i] = shading.shadingPipeline(_primitives, _lights, intersections, ray) * 255;
+                screen[j][i] = shading.shadingPipeline(_primitives, _lights, intersections, ray, 1) * 255;
                 // std::cout << screen[j][i] << "\n";
             }
         }
