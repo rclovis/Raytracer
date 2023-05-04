@@ -21,9 +21,7 @@ Square::Square(libconfig::Setting &conf)
     int zr = conf.lookup("zr");
     conf.lookupValue("material", _materialName);
     point_inf = {{(float) px_inf, (float) py_inf, (float) pz_inf}};
-    std::cerr << "point inf: " << point_inf << "\n";
     point_sup = {{(float) px_sup, (float) py_sup, (float) pz_sup}};
-    std::cerr << "point sup: " << point_sup << "\n";
     rotation = {{(float) xr, (float) yr, (float) zr}};
 }
 

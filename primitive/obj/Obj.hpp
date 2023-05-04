@@ -26,6 +26,7 @@ class Obj : public APrimitives{
 
     private:
         std::vector<mat::Matrix<float, 1, 3>> _vertices;
+        std::vector<mat::Matrix<float, 1, 3>> _normal;
         mat::Matrix<float, 1, 3> _position;
         mat::Matrix<float, 1, 3> _rotation;
 };
