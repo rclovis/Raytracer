@@ -28,6 +28,7 @@ mat::Matrix<float, 1, 3> Shading::shadingPipelineRay (std::vector<IPrimitives*> 
         if (lightColor.ambient == true) {
             ambientColor = mixColor(ambientColor, lightColor.color, lightColor.intensity);
             ambientIntensity += lightColor.intensity;
+            continue;
         }
         //
 

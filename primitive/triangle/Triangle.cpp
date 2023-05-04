@@ -76,7 +76,7 @@ std::vector<normalRay> Triangle::computeIntersection(cameraRay ray)
     normalRay normal;
     normal.origin = inter;
     normal.direction = _normal;
-    if (mat::dotProduct(_normal, ray.direction) < 0)
+    if (mat::dotProduct(_normal, ray.direction) > 0)
         normal.direction *= -1;
     rays.push_back(normal);
     return rays;

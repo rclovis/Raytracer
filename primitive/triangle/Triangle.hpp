@@ -43,7 +43,7 @@ class Triangle : public APrimitives{
 
 std::string getId ()
 {
-    return "Triangle";
+    return "triangle";
 }
 
 
