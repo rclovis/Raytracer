@@ -22,8 +22,8 @@ class Plane : public APrimitives{
         std::vector<normalRay> computeIntersection (cameraRay ray);
 
     private:
-        float d;
         mat::Matrix<float, 1, 3> rotation;
+        mat::Matrix<float, 1, 3> translation;
         mat::Matrix<float, 1, 3> normal_vec;
         float _transparency;
 
