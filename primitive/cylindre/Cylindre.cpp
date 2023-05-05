@@ -17,7 +17,6 @@ Cylindre::Cylindre(libconfig::Setting &conf)
     int yr = conf.lookup("yr");
     int zr = conf.lookup("zr");
     conf.lookupValue("material", _materialName);
-    std::cerr << _materialName << "\n";
     val = (float) dist;
     r = (float) rayon;
     rotation = {{(float) xr, (float) yr, (float) zr}};
@@ -53,12 +52,16 @@ std::vector<normalRay> Cylindre::computeIntersection (cameraRay ray)
         normalRay normal2;
         float normalisation = sqrt(inter(0, 0) * inter(0, 0) + inter(0, 1) * inter(0, 1));
         float normalisation2 = sqrt(inter2(0, 0) * inter2(0, 0) + inter2(0, 1) * inter2(0, 1));
-        mat::Matrix<float, 1, 3> vecnormal1 = {{inter(0, 0) / normalisation, inter(0, 1) / normalisation, inter(0, 2) / normalisation}};
-        mat::Matrix<float, 1, 3> vecnormal2 = {{inter2(0, 0) / normalisation2, inter2(0, 1) / normalisation2, inter2(0, 2) / normalisation2}};
+        mat::Matrix<float, 1, 3> vecnormal1 = {{inter(0, 0) / normalisation, inter(0, 1) / normalisation, 0}};
+        mat::Matrix<float, 1, 3> vecnormal2 = {{inter2(0, 0) / normalisation2, inter2(0, 1) / normalisation2, 0}};
         normal.origin = inter;
         normal.direction = vecnormal1;
         normal2.origin = inter2;
         normal2.direction = vecnormal2;
+        if (mat::dotProduct(normal.direction, ray.direction) > 0)
+            normal.direction *= -1;
+        if (mat::dotProduct(normal2.direction, ray.direction) > 0)
+            normal2.direction *= -1;
         normal = convertHit(normal, {{0, 0, val}}, rotation);
         normal2 = convertHit(normal2, {{0, 0, val}}, rotation);
         rays.push_back(normal);
