@@ -27,6 +27,7 @@ class Parser {
         std::vector<IPrimitives *> parsePrimitives(std::map<std::string, RayTracer::DynLib*> primitivesObj);
         std::vector<ILights *> parseLights(std::map<std::string, RayTracer::DynLib*> primitivesObj);
         void loadMaterials(std::vector<IPrimitives *> primitives);
+        bool antiAliasing();
         Camera *parseCamera();
 
     private:

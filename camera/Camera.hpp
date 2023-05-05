@@ -12,7 +12,7 @@
 
 class Camera {
     public:
-        Camera(int width, int height, mat::Matrix<float, 1, 3> position, mat::Matrix<float, 1, 3> rotation, int fov);
+        Camera(int width, int height, mat::Matrix<float, 1, 3> position, mat::Matrix<float, 1, 3> rotation, int fov, bool antiAliasing);
         ~Camera();
         cameraRay getRay(int x, int y);
         std::ofstream &getOfs() {return _ofs;}

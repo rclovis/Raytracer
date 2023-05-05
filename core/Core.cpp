@@ -47,6 +47,7 @@ namespace RayTracer
         parser.loadMaterials(_primitives);
         _lights = parser.parseLights(lightsObj);
         _camera = parser.parseCamera();
+        _antiAliasing = parser.antiAliasing();
     }
 
     Core::~Core()
@@ -102,9 +103,24 @@ namespace RayTracer
             }
         }
 
-        for (int j = _camera->getHeight() - 1; j >= 0; --j) {
-            for (int i = 0; i < _camera->getWidth(); ++i) {
-                _camera->getOfs() << std::to_string((int) screen[j][i](0, 0)) << " " << std::to_string((int) screen[j][i](0, 1)) << " " << std::to_string((int) screen[j][i](0, 2)) << std::endl;
+        if (_antiAliasing) {
+            std::vector<std::vector<mat::Matrix<float, 1, 3>>> screen2 = std::vector<std::vector<mat::Matrix<float, 1, 3>>>(_camera->getHeight() / 2, std::vector<mat::Matrix<float, 1, 3>>(_camera->getWidth() / 2, {{0, 0, 0}}));
+            for (int j = _camera->getHeight() / 2 - 1; j >= 0; --j) {
+                for (int i = 0; i < _camera->getWidth() / 2; ++i) {
+                    screen2[j][i] = (screen[j * 2][i * 2] + screen[j * 2][i * 2 + 1] + screen[j * 2 + 1][i * 2] + screen[j * 2 + 1][i * 2 + 1]) / 4;
+                }
+            }
+            screen = screen2;
+            for (int j = _camera->getHeight() / 2 - 1; j >= 0; --j) {
+                for (int i = 0; i < _camera->getWidth() / 2; ++i) {
+                    _camera->getOfs() << std::to_string((int) screen[j][i](0, 0)) << " " << std::to_string((int) screen[j][i](0, 1)) << " " << std::to_string((int) screen[j][i](0, 2)) << std::endl;
+                }
+            }
+        } else {
+            for (int j = _camera->getHeight() - 1; j >= 0; --j) {
+                for (int i = 0; i < _camera->getWidth(); ++i) {
+                    _camera->getOfs() << std::to_string((int) screen[j][i](0, 0)) << " " << std::to_string((int) screen[j][i](0, 1)) << " " << std::to_string((int) screen[j][i](0, 2)) << std::endl;
+                }
             }
         }
     }
