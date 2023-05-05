@@ -9,9 +9,9 @@
 #include "Matrix.hpp"
 
 /*
-plane = (
-    { a = 20; b = 5; c = 3; d = 40; e = 5; f = 20; x = 60; y = 5; z = 40; color = { r = 255; g = 64; b = 64; }; } ,
-) ;
+    plane = (
+        {x = 0; y = 0; z = 0; xr = 0; yr = 0; zr = 0; material = "green";}
+    );
 */
 
 Plane::Plane(libconfig::Setting &conf)

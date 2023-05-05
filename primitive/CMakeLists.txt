@@ -41,6 +41,11 @@ OBJ_SOURCES
     obj/Obj.cpp
 )
 
+set(
+CONE_SOURCES
+    cone/Cone.cpp
+)
+
 add_library(raytracer_sphere SHARED ${SPHERE_SOURCES})
 target_include_directories(raytracer_sphere PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer_sphere PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -61,7 +66,11 @@ add_library(raytracer_obj SHARED ${OBJ_SOURCES})
 target_include_directories(raytracer_obj PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer_obj PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_library(raytracer_cone SHARED ${CONE_SOURCES})
+target_include_directories(raytracer_cone PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
+target_include_directories(raytracer_cone PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(raytracer_sphere config++)
 target_link_libraries(raytracer_plane config++)
 target_link_libraries(raytracer_square config++)
+target_link_libraries(raytracer_cone config++)
