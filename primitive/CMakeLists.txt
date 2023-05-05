@@ -31,6 +31,11 @@ SQUARE_SOURCES
     square/Square.cpp
 )
 
+set(
+CYLINDRE_SOURCES
+    cylindre/Cylindre.cpp
+)
+
 add_library(raytracer_sphere SHARED ${SPHERE_SOURCES})
 target_include_directories(raytracer_sphere PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer_sphere PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -43,6 +48,11 @@ add_library(raytracer_square SHARED ${SQUARE_SOURCES})
 target_include_directories(raytracer_square PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
 target_include_directories(raytracer_square PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_library(raytracer_cylindre SHARED ${CYLINDRE_SOURCES})
+target_include_directories(raytracer_cylindre PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../inc)
+target_include_directories(raytracer_cylindre PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
 target_link_libraries(raytracer_sphere config++)
 target_link_libraries(raytracer_plane config++)
 target_link_libraries(raytracer_square config++)
+target_link_libraries(raytracer_cylindre config++)
