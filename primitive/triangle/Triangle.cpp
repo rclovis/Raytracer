@@ -39,6 +39,7 @@ Triangle::Triangle(libconfig::Setting &conf)
     mat::Matrix<float, 1, 3> V = point_c - point_a;
 
     _normal = mat::normalizeVector(mat::crossProduct(U, V));
+    D = - (mat::dotProduct(_normal, point_a));
 }
 
 Triangle::~Triangle()
@@ -48,8 +49,7 @@ Triangle::~Triangle()
 std::vector<normalRay> Triangle::computeIntersection(cameraRay ray)
 {
     std::vector<normalRay> rays;
-    float D = - (mat::dotProduct(_normal, point_a));
-    if (abs(D) <= 1e-6) // maybe just D == 0
+    if (abs(D) <= 1e-6)
         return rays;
     if (mat::dotProduct(_normal, ray.direction) == 0)
         return rays;

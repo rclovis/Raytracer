@@ -27,6 +27,7 @@ class Triangle : public APrimitives{
         mat::Matrix<float, 1, 3> point_a;
         mat::Matrix<float, 1, 3> point_b;
         mat::Matrix<float, 1, 3> point_c;
+        float D;
         float _transparency;
 
 };
