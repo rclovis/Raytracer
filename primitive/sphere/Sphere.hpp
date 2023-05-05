@@ -24,7 +24,6 @@ class Sphere : public APrimitives{
     private:
         mat::Matrix<float, 1, 3> _position;
         float _radius;
-        float _transparency;
 };
 
  std::string getType ()

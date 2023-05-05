@@ -15,13 +15,6 @@
 
 int main(int argc, char *argv[])
 {
-
-    mat::Matrix<float, 3, 3> mate = {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}
-    };
-    std::cout <<  mat::rotationMatrix(45, 0, 0) << std::endl;
     try
     {
         RayTracer::Core core;

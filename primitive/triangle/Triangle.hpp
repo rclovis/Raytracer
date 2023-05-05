@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** plane.hpp
+** Triangle.hpp
 ** File description:
-** planes
+** Triangles
 */
 
 #pragma once
@@ -15,16 +15,19 @@ extern "C" {
     IPrimitives *Init(libconfig::Setting &conf);
 }
 
-class Plane : public APrimitives{
+class Triangle : public APrimitives{
     public:
-        Plane(libconfig::Setting &conf);
-        ~Plane();
+        Triangle(libconfig::Setting &conf);
+        ~Triangle();
         std::vector<normalRay> computeIntersection (cameraRay ray);
 
     private:
         mat::Matrix<float, 1, 3> rotation;
-        mat::Matrix<float, 1, 3> translation;
-        mat::Matrix<float, 1, 3> normal_vec;
+        mat::Matrix<float, 1, 3> _normal;
+        mat::Matrix<float, 1, 3> point_a;
+        mat::Matrix<float, 1, 3> point_b;
+        mat::Matrix<float, 1, 3> point_c;
+        float D;
         float _transparency;
 
 };
@@ -36,12 +39,12 @@ class Plane : public APrimitives{
 
  IPrimitives *Init(libconfig::Setting &conf)
 {
-    return new Plane(conf);
+    return new Triangle(conf);
 }
 
 std::string getId ()
 {
-    return "plane";
+    return "triangle";
 }
 
 

@@ -97,16 +97,20 @@ Camera *Parser::parseCamera ()
         cfg.readFile(_path.c_str());
     } catch (const libconfig::FileIOException &fioex) {
         std::cout << LOG_PARSER("I/O error while reading file.");
-        return new Camera(width, height, position, rotation, fov);
+        return new Camera(width, height, position, rotation, fov, antiAliasing());
     } catch (const libconfig::ParseException &pex) {
         std::cout << LOG_PARSER("Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError());
-        return new Camera(width, height, position, rotation, fov);
+        return new Camera(width, height, position, rotation, fov, antiAliasing());
     }
     const libconfig::Setting &root = cfg.getRoot();
     const libconfig::Setting &cameraSetting = root["camera"];
     const libconfig::Setting &resolutionSetting = cameraSetting["resolution"];
     resolutionSetting.lookupValue("width", width);
     resolutionSetting.lookupValue("height", height);
+    if (antiAliasing() == true) {
+        width *= 2;
+        height *= 2;
+    }
     const libconfig::Setting &positionSetting = cameraSetting["position"];
     int x, y, z;
     positionSetting.lookupValue("x", x);
@@ -119,37 +123,9 @@ Camera *Parser::parseCamera ()
     rotationSetting.lookupValue("z", z);
     rotation = {{(float)x, (float)y, (float)z}};
     cameraSetting.lookupValue("fieldOfView", fov);
-    return new Camera(width, height, position, rotation, fov);
+    return new Camera(width, height, position, rotation, fov, antiAliasing());
 }
 
-
-/*
-materials :
-{
-    {
-        name = "red";
-        r = 255;
-        g = 64;
-        b = 64;
-        transparency = 0.0;
-        reflection = 0.0;
-        refraction = 0.0;
-        shininess = 0.0;
-    },
-
-        name = "green";
-        r = 64;
-        g = 255;
-        b = 64;
-        transparency = 0.0;
-        reflection = 0.0;
-        refraction = 0.0;
-        shininess = 0.0;
-    },
-
-};
-}
-*/
 void Parser::loadMaterials(std::vector<IPrimitives *> primitives)
 {
     std::vector<material> materials;
@@ -194,4 +170,23 @@ void Parser::loadMaterials(std::vector<IPrimitives *> primitives)
             }
         }
     }
+}
+
+bool Parser::antiAliasing()
+{
+    libconfig::Config cfg;
+    try {
+        cfg.readFile(_path.c_str());
+    } catch (const libconfig::FileIOException &fioex) {
+        std::cout << LOG_PARSER("I/O error while reading file.");
+        return false;
+    } catch (const libconfig::ParseException &pex) {
+        std::cout << LOG_PARSER("Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError());
+        return false;
+    }
+    const libconfig::Setting &root = cfg.getRoot();
+    int antiAliasing;
+    root.lookupValue("antiAliasing", antiAliasing);
+    std::cout << LOG_PARSER("antiAliasing : " << ((antiAliasing) ? "true." : "false."));
+    return (antiAliasing) ? true : false;
 }

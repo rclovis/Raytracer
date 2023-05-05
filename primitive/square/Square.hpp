@@ -8,6 +8,7 @@
 #pragma once
 #include "Primitives.hpp"
 #include <math.h>
+#include <algorithm>
 
 extern "C" {
     std::string getType();
@@ -26,7 +27,6 @@ class Square : public APrimitives{
     mat::Matrix<float, 1, 3> rotation;
     mat::Matrix<float, 1, 3> point_inf;
     mat::Matrix<float, 1, 3> point_sup;
-    float _transparency;
 };
 
  std::string getType ()

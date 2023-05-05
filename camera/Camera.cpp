@@ -7,14 +7,18 @@
 
 #include "Camera.hpp"
 
-Camera::Camera(int width, int height, mat::Matrix<float, 1, 3> position, mat::Matrix<float, 1, 3> rotation, int fov)
+Camera::Camera(int width, int height, mat::Matrix<float, 1, 3> position, mat::Matrix<float, 1, 3> rotation, int fov, bool antiAliasing)
 {
     _width = width;
     _height = height;
     _position = position;
     _fov = fov;
     _rotation = mat::rotationMatrix(rotation(0, 0), rotation(0, 1), rotation(0, 2));
-    _ofs << "P3\n" << width << " " << height << "\n255\n";
+
+    if (antiAliasing)
+        _ofs << "P3\n" << width / 2 << " " << height / 2 << "\n255\n";
+    else
+        _ofs << "P3\n" << width << " " << height << "\n255\n";
 }
 
 Camera::~Camera()
