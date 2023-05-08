@@ -28,10 +28,10 @@ std::vector<IPrimitives *> Parser::parsePrimitives(std::map<std::string, RayTrac
     try {
         cfg.readFile(_path.c_str());
     } catch (const libconfig::FileIOException &fioex) {
-        std::cout << LOG_PARSER("I/O error while reading file.");
+        std::cout << LOG_ERR_PARSER("I/O error while reading file.");
         return primitives;
     } catch (const libconfig::ParseException &pex) {
-        std::cout << LOG_PARSER("Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError());
+        std::cout << LOG_ERR_PARSER("Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError());
         return primitives;
     }
     const libconfig::Setting &root = cfg.getRoot();
@@ -41,7 +41,7 @@ std::vector<IPrimitives *> Parser::parsePrimitives(std::map<std::string, RayTrac
         std::string name = primitive.getName();
         for (int j = 0; j < primitive.getLength(); j++) {
             if (primitivesObj.find(name) == primitivesObj.end()) {
-                std::cout << LOG_PARSER("Primitive " << name << " not found.");
+                std::cout << LOG_ERR_PARSER("Primitive " << name << " not found.");
                 continue;
             } else {
                 std::cout << LOG_PARSER("Primitive " << name << " found.");
@@ -122,34 +122,6 @@ Camera *Parser::parseCamera ()
     return new Camera(width, height, position, rotation, fov);
 }
 
-
-/*
-materials :
-{
-    {
-        name = "red";
-        r = 255;
-        g = 64;
-        b = 64;
-        transparency = 0.0;
-        reflection = 0.0;
-        refraction = 0.0;
-        shininess = 0.0;
-    },
-
-        name = "green";
-        r = 64;
-        g = 255;
-        b = 64;
-        transparency = 0.0;
-        reflection = 0.0;
-        refraction = 0.0;
-        shininess = 0.0;
-    },
-
-};
-}
-*/
 void Parser::loadMaterials(std::vector<IPrimitives *> primitives)
 {
     std::vector<material> materials;
