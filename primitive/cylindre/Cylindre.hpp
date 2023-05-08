@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** plane.hpp
+** cylindre.hpp
 ** File description:
-** planes
+** cylindre
 */
 
 #pragma once
@@ -15,18 +15,17 @@ extern "C" {
     IPrimitives *Init(libconfig::Setting &conf);
 }
 
-class Plane : public APrimitives{
+class Cylindre : public APrimitives{
     public:
-        Plane(libconfig::Setting &conf);
-        ~Plane();
+        Cylindre(libconfig::Setting &conf);
+        ~Cylindre();
         std::vector<normalRay> computeIntersection (cameraRay ray);
 
     private:
-        mat::Matrix<float, 1, 3> rotation;
-        mat::Matrix<float, 1, 3> translation;
-        mat::Matrix<float, 1, 3> normal_vec;
-        float _transparency;
-
+    float val;
+    float r;
+    mat::Matrix<float, 1, 3> rotation;
+    float _transparency;
 };
 
  std::string getType ()
@@ -36,12 +35,10 @@ class Plane : public APrimitives{
 
  IPrimitives *Init(libconfig::Setting &conf)
 {
-    return new Plane(conf);
+    return new Cylindre(conf);
 }
 
 std::string getId ()
 {
-    return "plane";
+    return "cylindre";
 }
-
-

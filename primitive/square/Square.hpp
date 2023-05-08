@@ -8,6 +8,7 @@
 #pragma once
 #include "Primitives.hpp"
 #include <math.h>
+#include <algorithm>
 
 extern "C" {
     std::string getType();

@@ -60,5 +60,6 @@ namespace RayTracer
         std::vector<IPrimitives*> _primitives;
         std::vector<ILights*> _lights;
         Camera *_camera;
+        bool _antiAliasing;
     };
 };

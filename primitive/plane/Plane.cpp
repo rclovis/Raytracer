@@ -25,8 +25,6 @@ Plane::Plane(libconfig::Setting &conf)
     conf.lookupValue("material", _materialName);
     rotation = {{(float) xr, (float) yr, (float) zr}};
     translation = {{(float) x, (float) y, (float) z}};
-    std::cout << rotation << std::endl;
-    std::cout << translation << std::endl;
 }
 
 Plane::~Plane()
@@ -40,11 +38,12 @@ std::vector<normalRay> Plane::computeIntersection(cameraRay ray)
     float t = (- ray.origin(0,2)) / ray.direction(0,2);
     if (t < 0)
         return rays;
-    float x = ray.origin(0,0) + ray.direction(0,0) * t;
-    float y = ray.origin(0,1) + ray.direction(0,1) * t;
-    float z = ray.origin(0,2) + ray.direction(0,2) * t;
+    mat::Matrix<float, 1, 3> p = {{0.0f, 0.0f, 0.0f}};
+    p(0, 0) = ray.origin(0,0) + ray.direction(0,0) * t;
+    p(0, 1) = ray.origin(0,1) + ray.direction(0,1) * t;
+    p(0, 2) = ray.origin(0,2) + ray.direction(0,2) * t;
     normalRay normal;
-    normal.origin = {{x, y, z}};
+    normal.origin = {{0, 0, 1}};
     normal.direction = {{0, 0, 1}};
     if (mat::dotProduct(normal.direction, ray.direction) < 0)
         normal.direction *= -1;
