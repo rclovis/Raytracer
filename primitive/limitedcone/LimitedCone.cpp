@@ -10,7 +10,7 @@
 
 /*
 LimitedCone = (
-    { t = 20 ; x = 50; y = 20; z = 40; xr = 0; yr = 0; zr = 0; material = "red" } ,
+    { t = 20 ; x = 50; y = 20; z = 40; xr = 0; yr = 90; zr = 90; material = "red" } ,
 ) ;
 */
 
