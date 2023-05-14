@@ -1,20 +1,20 @@
 /*
 ** EPITECH PROJECT, 2023
-** cone
+** LimitedCone
 ** File description:
-** cone
+** LimitedCone
 */
 
-#include "Cone.hpp"
+#include "LimitedCone.hpp"
 #include "Matrix.hpp"
 
 /*
-cone = (
+LimitedCone = (
     { t = 20 ; x = 50; y = 20; z = 40; xr = 0; yr = 0; zr = 0; material = "red" } ,
 ) ;
 */
 
-Cone::Cone(libconfig::Setting &conf)
+LimitedCone::LimitedCone(libconfig::Setting &conf)
 {
     int xr = conf.lookup("xr");
     int yr = conf.lookup("yr");
@@ -32,17 +32,18 @@ Cone::Cone(libconfig::Setting &conf)
     tip = {{(float) x, (float) y, (float) z}};
 }
 
-Cone::~Cone()
+LimitedCone::~LimitedCone()
 {
 }
 
-std::vector<normalRay> Cone::computeIntersection(cameraRay ray)
+std::vector<normalRay> LimitedCone::computeIntersection(cameraRay ray)
 {
     ray = transformRay(ray, tip ,rotation);
     std::vector<normalRay> rays;
 
     mat::Matrix<float, 1, 3> point = ray.origin;
     float _height = height - ray.origin(0, 1);
+
     float tan = (theta / height) * (theta / height);
 
     float a = ray.direction(0, 0) * ray.direction(0, 0) + ray.direction(0, 2) * ray.direction(0, 2) - (tan * (ray.direction(0, 1) *ray.direction(0, 1)));
@@ -62,11 +63,13 @@ std::vector<normalRay> Cone::computeIntersection(cameraRay ray)
 
     normalRay normal;
     normal.origin = ray.origin + ray.direction * t;
-    normal.direction = mat::normalizeVector(normal.origin);
-    if (mat::dotProduct(normal.direction, ray.direction) > 0) {
-        normal.direction *= -1;
+    if (normal.origin(0, 1) > tip(0, 1) && (normal.origin(0, 1) < tip(0, 1) + height)) {
+        normal.direction = mat::normalizeVector(normal.origin);
+        if (mat::dotProduct(normal.direction, ray.direction) > 0) {
+            normal.direction *= -1;
+        }
+        normal = convertHit(normal, tip, rotation);
+        rays.push_back(normal);
     }
-    normal = convertHit(normal, tip, rotation);
-    rays.push_back(normal);
     return rays;
 }
