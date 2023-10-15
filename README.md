@@ -57,8 +57,7 @@ The config file used to generate the image is located at the root of the project
 - `AntiAliasing`: Contains information about the anti-aliasing used in the scene.
 
 # Examples:
-## Cornell Box:
-![image](Archive/Reflexions.ppm)
-![image](Archive/ivoire.ppm)
-![image](Archive/image moai.ppm)
-![image](Archive/zerimage.ppm)
+![image](Archive/Reflexions.png)
+![image](Archive/ivoire.png)
+![image](Archive/image_moai.png)
+![image](Archive/zerimage.png)
