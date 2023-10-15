@@ -1,5 +1,5 @@
 # Raytracer
-A simple raytracer written in C++ that can generate a realistic image from a config file.
+Raytracer written in C++ that can generate a realistic image from a config file.
 
 # Supported Features:
 ## Primitives:
