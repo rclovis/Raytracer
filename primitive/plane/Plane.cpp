@@ -43,9 +43,9 @@ std::vector<normalRay> Plane::computeIntersection(cameraRay ray)
     p(0, 1) = ray.origin(0,1) + ray.direction(0,1) * t;
     p(0, 2) = ray.origin(0,2) + ray.direction(0,2) * t;
     normalRay normal;
-    normal.origin = {{0, 0, 1}};
+    normal.origin = p;
     normal.direction = {{0, 0, 1}};
-    if (mat::dotProduct(normal.direction, ray.direction) < 0)
+    if (mat::dotProduct(normal.direction, ray.direction) > 0)
         normal.direction *= -1;
     normal = convertHit(normal, translation, rotation);
     rays.push_back(normal);
